@@ -156,21 +156,3 @@ public class ClienteProductoCupo implements Serializable {
 
     
 }
-
-/*
-CREATE TABLE `clienteproductocupo` (
- `cliente_id` int(4) NOT NULL DEFAULT '0' COMMENT 'mapeo Java: clienteID',
- `producto_id` smallint(2) NOT NULL DEFAULT '0' COMMENT 'mapeo Java: productoID',
- `dias` smallint(2) NOT NULL DEFAULT '0' COMMENT 'mapeo Java: dias',
- `cantidad` smallint(2) NOT NULL DEFAULT '0' COMMENT 'mapeo Java: cantidad',
- `clienteproductocupo_id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'mapeo Java: clienteproductocupoID',
- `created` datetime DEFAULT NULL COMMENT 'mapeo Java: created',
- `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'mapeo Java: updated',
- `uuid` varchar(32) NOT NULL DEFAULT '' COMMENT 'mapeo Java: uuid',
- PRIMARY KEY (`cliente_id`,`producto_id`,`dias`),
- KEY `clienteproductocupo_id` (`clienteproductocupo_id`),
- KEY `producto_id` (`producto_id`),
- CONSTRAINT `clienteproductocupo_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`Codigo`),
- CONSTRAINT `clienteproductocupo_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`Prd_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
-*/
