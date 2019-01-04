@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class ClienteProductoCupoPK implements Serializable{
     
-    @Id()
+    //@Id
     @NotNull
     @Column(name = "cliente_id")
     private Long clienteID;
