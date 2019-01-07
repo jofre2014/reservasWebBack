@@ -48,7 +48,7 @@ public class Hotel implements Serializable {
     private short paradaTraslado;
 
     @NotNull
-    @Digits(integer = 1, fraction = 0)
+    @Digits(integer = 4, fraction = 0)
     @Column(name = "auto_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int autoID;
