@@ -15,15 +15,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.springboot.app.models.dao.IClienteDao;
 import com.springboot.app.models.dao.IUsuarioDao;
+import com.springboot.app.models.entity.Cliente;
 import com.springboot.app.models.entity.Role;
 import com.springboot.app.models.entity.Usuario;
 
 @Service("jpaUserDetailsService")
 public class JpaUserDetailsService implements UserDetailsService{
 
+	
 	@Autowired
-	private IUsuarioDao usuarioDao;
+	private IClienteDao clienteDao;
 	
 	private Logger logger = LoggerFactory.getLogger(JpaUserDetailsService.class);
 	
@@ -32,27 +35,32 @@ public class JpaUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		
+logger.error(" Cuit: " +username);
 		
-        Usuario usuario = usuarioDao.findByUsername(username);
-        
-        if(usuario == null) {
-        	logger.error("Error en el Login: no existe el usuario '" + username + "' en el sistema!");
-        	throw new UsernameNotFoundException("Username: " + username + " no existe en el sistema!");
-        }
-        
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        
-        for(Role role: usuario.getRoles()) {
-        	logger.info("Role: ".concat(role.getAuthority()));
-        	authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
-        }
-        
-        if(authorities.isEmpty()) {
-        	logger.error("Error en el Login: Usuario '" + username + "' no tiene roles asignados!");
-        	throw new UsernameNotFoundException("Error en el Login: usuario '" + username + "' no tiene roles asignados!");
-        }
-        
-		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);
+		Cliente cliente = clienteDao.findByCuit(username);
+		
+		if(cliente==null) {
+			logger.error("Error en el login: no existe el cliente '" + username +"' en el sistema");
+			throw new UsernameNotFoundException("Error en el login: no existe el cliente '" + username +"' en el sistema");
+		}
+		
+		logger.error("Se encontró el cliente. Cuit: " + cliente.getCuit()+ " Cliente pass: " + cliente.getClienteInternet().getPassword());
+		System.out.println("PASSWORD BD: " + cliente.getClienteInternet().getPassword());
+		
+		/*
+		List<GrantedAuthority> authorities = cliente.getRoles()
+				.stream()
+				.map(role -> new SimpleGrantedAuthority(role.getNombre()))
+				.peek(authority -> logger.info("Role: " + authority.getAuthority()))
+				.collect(Collectors.toList());		
+			*/	
+		
+		//Defino HarCode el ROLE ADMIN
+		List<GrantedAuthority> roles = new ArrayList<>();
+		roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));			
+		
+		return new User(cliente.getCuit() , cliente.getClienteInternet().getPassword(),roles);
+		
 	}
 
 }
