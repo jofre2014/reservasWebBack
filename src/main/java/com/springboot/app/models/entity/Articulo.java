@@ -5,198 +5,206 @@
  */
 package com.springboot.app.models.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 /**
  *
  * @author Romina
  */
-public class Articulo {
-    
-    @Column(name="Codigo")
+@Entity
+@Table(name = "articulos")
+public class Articulo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "Codigo")
     @NotNull
     @Size(max = 20)
     private String articuloID;
-    
-    @Column(name="Art_Neg_ID")
+
+    @Column(name = "Art_Neg_ID")
     @NotNull
     @Digits(integer = 2, fraction = 0)
     private short negocioID;
-    
-    @Column(name="Descripcion")
+
+    @Column(name = "Descripcion")
     @NotNull
     @Size(max = 50)
     private String descripcion;
-    
-    @Column(name="Art_Voucher")
+
+    @Column(name = "Art_Voucher")
     @NotNull
     @Size(max = 150)
     private String leyendavoucher;
-    
-    @Column(name="precioVentaSinIva")
+
+    @Column(name = "precioVentaSinIva")
     @NotNull
     @Digits(integer = 16, fraction = 2)
-    private double  precioventasiniva;
-    
-    @Column(name="PrecioUnitario")
+    private double precioventasiniva;
+
+    @Column(name = "PrecioUnitario")
     @NotNull
     @Digits(integer = 16, fraction = 2)
     private double precioventaconiva;
-    
-    @Column(name="CgoContable")
+
+    @Column(name = "CgoContable")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int cuentaventas;
-    
-    @Column(name="CgoContableCompras")
+
+    @Column(name = "CgoContableCompras")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int cuentacompras;
-    
-    @Column(name="CgoContableGastos")
+
+    @Column(name = "CgoContableGastos")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int cuentagastos;
-    
-    @Column(name="CgoCentro")
+
+    @Column(name = "CgoCentro")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int centrostockID;
-    
-    @Column(name="CgoRubro")
+
+    @Column(name = "CgoRubro")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int rubroID;
-    
-    @Column(name="CgoSubRubro")
+
+    @Column(name = "CgoSubRubro")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int subrubroID;
-    
-    @Column(name="PrecioCompra")
+
+    @Column(name = "PrecioCompra")
     @NotNull
     @Digits(integer = 16, fraction = 2)
     private double preciocompra;
-    
-    @Column(name="Iva105")
+
+    @Column(name = "Iva105")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short iva105;
-    
-    @Column(name="Art_CompraNeto")
+
+    @Column(name = "Art_CompraNeto")
     @NotNull
     @Digits(integer = 16, fraction = 2)
     private double preciocompraneto;
-    
-    @Column(name="Exento")
+
+    @Column(name = "Exento")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short exento;
-    
-    @Column(name="StockMinimo")
+
+    @Column(name = "StockMinimo")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int stockminimo;
-    
-    @Column(name="StockOptimo")
+
+    @Column(name = "StockOptimo")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int stockoptimo;
-    
-    @Column(name="BloqueoCompras")
+
+    @Column(name = "BloqueoCompras")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short bloqueocompras;
-    
-    @Column(name="BloqueoStock")
+
+    @Column(name = "BloqueoStock")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short bloqueostock;
-    
-    @Column(name="BloqueoVentas")
+
+    @Column(name = "BloqueoVentas")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short bloqueoventas;
-    
-    @Column(name="Art_UMe_ID")
+
+    @Column(name = "Art_UMe_ID")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int unidadmedidaID;
-    
-    @Column(name="Art_ConDecimales")
+
+    @Column(name = "Art_ConDecimales")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short condecimales;
-   
-    @Column(name="Art_Ventas")
+
+    @Column(name = "Art_Ventas")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int ventas;
-    
-    @Column(name="Art_Compras")
+
+    @Column(name = "Art_Compras")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short compras;
-    
-    @Column(name="UMedida")
+
+    @Column(name = "UMedida")
     @NotNull
     @Size(max = 20)
     private String unidadmedida;
-    
-    @Column(name="Art_Con_ID")
+
+    @Column(name = "Art_Con_ID")
     @NotNull
     @Digits(integer = 2, fraction = 0)
     private short conversionID;
-    
-    @Column(name="Art_VentaSinStock")
+
+    @Column(name = "Art_VentaSinStock")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short ventasinstock;
-    
-    @Column(name="Art_ControlStock")
+
+    @Column(name = "Art_ControlStock")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short controlastock;
-    
-    @Column(name="Art_AsientoCostos")
+
+    @Column(name = "Art_AsientoCostos")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short asientocostos;
-    
-    @Column(name="Art_MaskBal")
+
+    @Column(name = "Art_MaskBal")
     @NotNull
     @Size(max = 5)
     private String mascarabalanza;
-    
-    @Column(name="Art_HabIngreso")
+
+    @Column(name = "Art_HabIngreso")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short habilitaingreso;
-    
-    @Column(name="Art_Comision")
+
+    @Column(name = "Art_Comision")
     @NotNull
     @Digits(integer = 10, fraction = 2)
     private double comision;
-    
-    @Column(name="Art_Pre_ID")
+
+    @Column(name = "Art_Pre_ID")
     @NotNull
     @Digits(integer = 2, fraction = 0)
     private short prestadorID;
-    
+
     @NotNull
     @Digits(integer = 4, fraction = 0)
     @Column(name = "Clave")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int autoID;
-    
+
     private Date created;
 
     @NotNull
@@ -691,7 +699,5 @@ public class Articulo {
     public String toString() {
         return "Articulo{" + "articuloID=" + articuloID + ", negocioID=" + negocioID + ", descripcion=" + descripcion + ", leyendavoucher=" + leyendavoucher + ", precioventasiniva=" + precioventasiniva + ", precioventaconiva=" + precioventaconiva + ", cuentaventas=" + cuentaventas + ", cuentacompras=" + cuentacompras + ", cuentagastos=" + cuentagastos + ", centrostockID=" + centrostockID + ", rubroID=" + rubroID + ", subrubroID=" + subrubroID + ", preciocompra=" + preciocompra + ", iva105=" + iva105 + ", preciocompraneto=" + preciocompraneto + ", exento=" + exento + ", stockminimo=" + stockminimo + ", stockoptimo=" + stockoptimo + ", bloqueocompras=" + bloqueocompras + ", bloqueostock=" + bloqueostock + ", bloqueoventas=" + bloqueoventas + ", unidadmedidaID=" + unidadmedidaID + ", condecimales=" + condecimales + ", ventas=" + ventas + ", compras=" + compras + ", unidadmedida=" + unidadmedida + ", conversionID=" + conversionID + ", ventasinstock=" + ventasinstock + ", controlastock=" + controlastock + ", asientocostos=" + asientocostos + ", mascarabalanza=" + mascarabalanza + ", habilitaingreso=" + habilitaingreso + ", comision=" + comision + ", prestadorID=" + prestadorID + ", autoID=" + autoID + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + '}';
     }
-    
-    
-}
 
+}
