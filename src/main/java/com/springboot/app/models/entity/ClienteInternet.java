@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="clienteinternet")
@@ -14,17 +15,21 @@ public class ClienteInternet implements Serializable {
 	
 	@Id
 	@Column(name="cliente_id")
+	@NotNull
 	private int clienteID;
 	
+	@NotNull
 	@Column(name="password")
 	private String password;
 	
 	@Column(name="created")
 	private Timestamp created;
 	
+	@NotNull
 	@Column(name="updated")
 	private Timestamp updated;
 	
+	@NotNull
 	@Column(name="uuid", length=32)
 	private String uuid;
 

@@ -6,11 +6,12 @@
 package com.springboot.app.controllers;
 
 import com.springboot.app.models.entity.ClienteGrupoCupo;
-import com.springboot.app.models.service.IClienteProductoCupoService;
+import com.springboot.app.models.service.IClienteGrupoCupoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +21,26 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("api")
-public class ClienteProductoCupoRestController {
+public class ClienteGrupoCupoRestController {
     
     @Autowired
-	private IClienteProductoCupoService clienteProductoCupoService;
+	private IClienteGrupoCupoService clienteGrupoCupoService;
 	
 	
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/cpc")
 	public List<ClienteGrupoCupo> listar() {
-		return clienteProductoCupoService.findAll();
+		return clienteGrupoCupoService.findAll();
 	}
+	
+	/**
+	 *
+	 * @author Jose
+	 */
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+	@GetMapping(value = "/cupos/{codigo}/{grupo}/{fecha}")
+	public Integer recuperaCupos(@PathVariable Long codigo, @PathVariable Long grupo, @PathVariable String fecha) {
+		return clienteGrupoCupoService.findCupos(codigo, grupo, fecha);
+	}
+
 }

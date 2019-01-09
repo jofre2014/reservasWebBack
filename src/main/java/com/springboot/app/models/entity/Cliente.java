@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="clientes")
@@ -21,73 +22,96 @@ public class Cliente implements Serializable {
 	private int clienteID;
 	
 	@Column(name="Cli_Neg_ID")
+	@NotNull
 	private int negocioID;
 	
+	@NotNull
 	private String cuit;
 	
+	@NotNull
 	@Column(name="razon", length=60)
 	private String razonsocial;
 	
+	@NotNull
 	@Column(name="Cli_Fantasia", length=100)
 	private String nombrefantasia;
 	
 	@Column(name="Cli_FechaRestaurant")
 	private Date fecharestaurant;
 	
+	@NotNull
 	@Column(name="cli_cantpaxs")
 	private Integer cantidadpaxs;
 	
+	@NotNull
 	@Column(name="Cli_Tipo")
 	private int tipocliente;
 	
+	@NotNull
 	@Column(name="domicilio", length=100)
 	private String domicilio;
 	
+	@NotNull
 	@Column(name="tel", length=20)
 	private String telefono;
 	
+	@NotNull
 	@Column(name="fax", length=20)
 	private String fax;
 	
+	@NotNull
 	@Column(name="email", length=40)
 	private String email;
 	
+	@NotNull
 	@Column(name="Celular", length=40)
 	private String numeromovil;
 	
+	@NotNull
 	@Column(name="Posicion")
 	private int posicionIVA;
 	
+	@NotNull
 	@Column(name="Constante")
 	private int constante;
 	
+	@NotNull
 	@Column(name="documento_id")
 	private int documentoID;
 	
+	@NotNull
 	@Column(name="TipoDoc", length=50)
 	private String tipodocumento; 
 	
+	@NotNull
 	@Column(name="nrodoc", length=50)
 	private String numerodocumento; 
 	
+	@NotNull
 	@Column(name="LimiteCredito")
 	private Float limitecredito;
 	
+	@NotNull
 	@Column(name="Nacionalidad", length=50)
 	private String nacionalidad;
 	
+	@NotNull
 	@Column(name="Cli_CCa_ID")
 	private int clientecategoriaID;
 	
+	@NotNull
 	@Column(name="Cli_IDImpositivo", length=50)
 	private String impositivoID;
 	
 	//@Column(name="facturarextranjero")
+	@NotNull
 	private int facturarextranjero;
 	
+	@NotNull
 	@Column(name="bloqueado")
 	private int bloqueado; 
 	
+	@NotNull
 	@Column(name="discapacitado")
 	private int discapacitado;
 	
@@ -98,8 +122,10 @@ public class Cliente implements Serializable {
 	private Timestamp created;
 	
 	@Column(name="updated")
+	@NotNull
 	private Timestamp updated;
 	
+	@NotNull
 	@Column(name="uuid", length=32)
 	private String uuid;
 	

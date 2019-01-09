@@ -3,16 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.springboot.app.models.dao;
-import org.springframework.data.jpa.repository.JpaRepository;
+package com.springboot.app.models.service;
+
 import com.springboot.app.models.entity.ClienteGrupoCupo;
+import java.util.List;
 
 /**
  *
  * @author Romina
  */
-public interface IClienteProductoCupoDao extends JpaRepository <ClienteGrupoCupo, Long>{
+public interface IClienteGrupoCupoService {
     
+	List<ClienteGrupoCupo> findAll();
+	
+	Integer findCupos(Long codigo, Long grupo, String fecha);
+
 }
-
-

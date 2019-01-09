@@ -19,7 +19,10 @@ public class SpringBootDataJpaApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {		
+	public void run(String... args) throws Exception {	
+		String pass = "12345";
+		
+		System.out.println(passwordEncoder.encode(pass));
 		
 	}
 }

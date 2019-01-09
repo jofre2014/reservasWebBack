@@ -8,10 +8,13 @@ package com.springboot.app.models.dao;
 import com.springboot.app.models.entity.GrupoProducto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
 /**
  *
  * @author Romina
  */
 public interface IGrupoProductoDao  extends JpaRepository<GrupoProducto, Integer>{
     
+	
+	
 }
