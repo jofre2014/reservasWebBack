@@ -25,7 +25,7 @@ public class ReservaArticuloRestController {
      IReservaArticuloService iReservaArticuloService;
      
      @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-    @GetMapping(value = "/voucherProducto")
+    @GetMapping(value = "/reservaArticulos")
     public List<ReservaArticulo> listar() {
         return iReservaArticuloService.findAll();
     }
