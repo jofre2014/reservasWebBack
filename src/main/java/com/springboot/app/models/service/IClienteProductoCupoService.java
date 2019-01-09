@@ -5,7 +5,7 @@
  */
 package com.springboot.app.models.service;
 
-import com.springboot.app.models.entity.ClienteProductoCupo;
+import com.springboot.app.models.entity.ClienteGrupoCupo;
 import java.util.List;
 
 /**
@@ -13,5 +13,5 @@ import java.util.List;
  * @author Romina
  */
 public interface IClienteProductoCupoService {
-    List<ClienteProductoCupo> findAll();
+    List<ClienteGrupoCupo> findAll();
 }

@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  * @author Romina
  */
 @Embeddable
-public class ClienteProductoCupoPK implements Serializable{
+public class ClienteGrupoCupoPK implements Serializable{
     
     //@Id
     @NotNull
@@ -24,15 +24,15 @@ public class ClienteProductoCupoPK implements Serializable{
     private Long clienteID;
     
     @NotNull
-    @Column(name = "producto_id")
-    private Long productoID;
+    @Column(name = "grupo_id")
+    private Long grupoID;
     
     @NotNull
     private short dias;
 
-    public ClienteProductoCupoPK(Long clienteID, Long productoID, short dias) {
+    public ClienteGrupoCupoPK(Long clienteID, Long productoID, short dias) {
         this.clienteID = clienteID;
-        this.productoID = productoID;
+        this.grupoID = productoID;
         this.dias = dias;
     }    
     
@@ -44,13 +44,13 @@ public class ClienteProductoCupoPK implements Serializable{
         this.clienteID = clienteID;
     }
 
-    public Long getProductoID() {
-        return productoID;
+    public Long getGrupoID() {
+        return grupoID;
     }
 
-    public void setProductoID(Long productoID) {
-        this.productoID = productoID;
-    }
+    public void setGrupoID(Long grupoID) {
+        this.grupoID = grupoID;
+    }  
     
     public short getDias() {
         return dias;

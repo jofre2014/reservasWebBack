@@ -21,21 +21,21 @@ import javax.validation.constraints.Size;
  * @author Romina
  */
 @Entity
-@Table(name = "clienteproductocupo")
-public class ClienteProductoCupo implements Serializable {
+@Table(name = "clientegrupocupo")
+public class ClienteGrupoCupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Valid
     @EmbeddedId
-    private ClienteProductoCupoPK clienteProductoPK;
+    private ClienteGrupoCupoPK clienteGrupoCupoPK;
     
     @NotNull
     private short cantidad;
     
     @Column(name = "clienteproductocupo_id")
     @NotNull
-    private Long clienteproductocupoID;
+    private Long clientegrupocupo_id;
 
     private Date created;
     
@@ -48,19 +48,11 @@ public class ClienteProductoCupo implements Serializable {
 
     
        
-    public ClienteProductoCupo() {
+    public ClienteGrupoCupo() {
         super();
     }
 
-    public ClienteProductoCupoPK getClienteProductoPK() {
-        return clienteProductoPK;
-    }
-
-    public void setClienteProductoPK(ClienteProductoCupoPK clienteProductoPK) {
-        this.clienteProductoPK = clienteProductoPK;
-    }
-
-    
+     
 
     public int getCantidad() {
         return cantidad;
@@ -70,13 +62,7 @@ public class ClienteProductoCupo implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Long getClienteproductocupoID() {
-        return clienteproductocupoID;
-    }
-
-    public void setClienteproductocupoID(Long clienteproductocupoID) {
-        this.clienteproductocupoID = clienteproductocupoID;
-    }
+  
 
     public Date getCreated() {
         return created;
@@ -102,15 +88,31 @@ public class ClienteProductoCupo implements Serializable {
         this.uuid = uuid;
     }
 
+    public ClienteGrupoCupoPK getClienteGrupoCupoPK() {
+        return clienteGrupoCupoPK;
+    }
+
+    public void setClienteGrupoCupoPK(ClienteGrupoCupoPK clienteGrupoCupoPK) {
+        this.clienteGrupoCupoPK = clienteGrupoCupoPK;
+    }
+
+    public Long getClientegrupocupo_id() {
+        return clientegrupocupo_id;
+    }
+
+    public void setClientegrupocupo_id(Long clientegrupocupo_id) {
+        this.clientegrupocupo_id = clientegrupocupo_id;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.clienteProductoPK);
-        hash = 59 * hash + this.cantidad;
-        hash = 59 * hash + Objects.hashCode(this.clienteproductocupoID);
-        hash = 59 * hash + Objects.hashCode(this.created);
-        hash = 59 * hash + Objects.hashCode(this.updated);
-        hash = 59 * hash + Objects.hashCode(this.uuid);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.clienteGrupoCupoPK);
+        hash = 97 * hash + this.cantidad;
+        hash = 97 * hash + Objects.hashCode(this.clientegrupocupo_id);
+        hash = 97 * hash + Objects.hashCode(this.created);
+        hash = 97 * hash + Objects.hashCode(this.updated);
+        hash = 97 * hash + Objects.hashCode(this.uuid);
         return hash;
     }
 
@@ -125,17 +127,17 @@ public class ClienteProductoCupo implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ClienteProductoCupo other = (ClienteProductoCupo) obj;
+        final ClienteGrupoCupo other = (ClienteGrupoCupo) obj;
         if (this.cantidad != other.cantidad) {
             return false;
         }
         if (!Objects.equals(this.uuid, other.uuid)) {
             return false;
         }
-        if (!Objects.equals(this.clienteProductoPK, other.clienteProductoPK)) {
+        if (!Objects.equals(this.clienteGrupoCupoPK, other.clienteGrupoCupoPK)) {
             return false;
         }
-        if (!Objects.equals(this.clienteproductocupoID, other.clienteproductocupoID)) {
+        if (!Objects.equals(this.clientegrupocupo_id, other.clientegrupocupo_id)) {
             return false;
         }
         if (!Objects.equals(this.created, other.created)) {
@@ -149,8 +151,10 @@ public class ClienteProductoCupo implements Serializable {
 
     @Override
     public String toString() {
-        return "ClienteProductoCupo{" + "clienteProductoPK=" + clienteProductoPK + ", cantidad=" + cantidad + ", clienteproductocupoID=" + clienteproductocupoID + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + '}';
+        return "ClienteGrupoCupo{" + "clienteGrupoCupoPK=" + clienteGrupoCupoPK + ", cantidad=" + cantidad + ", clientegrupocupo_id=" + clientegrupocupo_id + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + '}';
     }
+
+   
 
     
 

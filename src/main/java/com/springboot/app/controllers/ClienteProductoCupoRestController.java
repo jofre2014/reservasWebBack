@@ -5,7 +5,7 @@
  */
 package com.springboot.app.controllers;
 
-import com.springboot.app.models.entity.ClienteProductoCupo;
+import com.springboot.app.models.entity.ClienteGrupoCupo;
 import com.springboot.app.models.service.IClienteProductoCupoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ClienteProductoCupoRestController {
 	
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/cpc")
-	public List<ClienteProductoCupo> listar() {
+	public List<ClienteGrupoCupo> listar() {
 		return clienteProductoCupoService.findAll();
 	}
 }

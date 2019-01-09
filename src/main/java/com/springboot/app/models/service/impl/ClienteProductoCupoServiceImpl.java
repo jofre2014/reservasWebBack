@@ -6,7 +6,7 @@
 package com.springboot.app.models.service.impl;
 
 import com.springboot.app.models.dao.IClienteProductoCupoDao;
-import com.springboot.app.models.entity.ClienteProductoCupo;
+import com.springboot.app.models.entity.ClienteGrupoCupo;
 import com.springboot.app.models.service.IClienteProductoCupoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ClienteProductoCupoServiceImpl implements IClienteProductoCupoServi
 	IClienteProductoCupoDao iClienteProductoCupoDao;
 
     @Override
-    public List<ClienteProductoCupo> findAll() {
+    public List<ClienteGrupoCupo> findAll() {
             return iClienteProductoCupoDao.findAll();
     }
 	
