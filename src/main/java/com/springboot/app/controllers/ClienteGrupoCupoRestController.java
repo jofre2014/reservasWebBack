@@ -8,6 +8,8 @@ package com.springboot.app.controllers;
 import com.springboot.app.models.entity.ClienteGrupoCupo;
 import com.springboot.app.models.service.IClienteGrupoCupoService;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +41,7 @@ public class ClienteGrupoCupoRestController {
 	 */
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/cupos/{codigo}/{grupo}/{fecha}")
-	public Integer recuperaCupos(@PathVariable Long codigo, @PathVariable Long grupo, @PathVariable String fecha) {
+	public Map<String, Integer> recuperaCupos(@PathVariable Long codigo, @PathVariable Long grupo, @PathVariable String fecha) {
 		return clienteGrupoCupoService.findCupos(codigo, grupo, fecha);
 	}
 

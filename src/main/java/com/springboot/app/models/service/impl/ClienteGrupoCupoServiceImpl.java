@@ -6,14 +6,22 @@
 package com.springboot.app.models.service.impl;
 
 import com.springboot.app.models.dao.IClienteGrupoCupoDao;
+import com.springboot.app.models.dao.IGrupoDao;
 import com.springboot.app.models.entity.ClienteGrupoCupo;
+import com.springboot.app.models.entity.Grupo;
 import com.springboot.app.models.service.IClienteGrupoCupoService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +36,8 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
    
     @Autowired
 	IClienteGrupoCupoDao iClienteGrupoCupoDao;
+    
+    @Autowired IGrupoDao iGrupoDao;
 
     @Override
     public List<ClienteGrupoCupo> findAll() {
@@ -40,14 +50,26 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
     */
     
    	@Override
-   	public Integer findCupos(Long codigo, Long grupo,  String fecha_reserva) {
+   	public Map<String,Integer> findCupos(Long codigo, Long grupo,  String fecha_reserva) {
+   		
+   		List<Grupo> gruposInternet = new ArrayList<Grupo>();
+  		
+   		gruposInternet = iGrupoDao.recuperaGruposInternet();
    		
    		//Calcular cantidad de dias a la reserva
    		LocalDate fecha_actual = LocalDate.now();
    		
    		Integer cantDias = obtenerCantidadDias(fecha_actual, fecha_reserva);
-   		   			
-   		return iClienteGrupoCupoDao.recuperaCupos(codigo, grupo, cantDias);
+   		
+   		Map<String,Integer> cliGrpCupo = gruposInternet
+   							.stream()
+   							.collect(
+   									Collectors.toMap(Grupo::getNombre,
+   											g -> iClienteGrupoCupoDao.recuperaCupos(codigo, (long) g.getGrupoID(), cantDias)
+   													));   		
+   		
+
+   		return cliGrpCupo;
    	}
    		
    	private Integer obtenerCantidadDias(LocalDate fecha_actual, String fecha_res) {
