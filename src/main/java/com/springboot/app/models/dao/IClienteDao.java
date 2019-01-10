@@ -6,6 +6,6 @@ import com.springboot.app.models.entity.Cliente;
 
 public interface IClienteDao extends JpaRepository<Cliente, Integer>{
 	
-	public Cliente findByCuit(String cuit);
+	public Cliente findByCuit(String cuit);	 
 
 }

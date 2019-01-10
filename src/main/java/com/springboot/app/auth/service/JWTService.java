@@ -2,6 +2,7 @@ package com.springboot.app.auth.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,4 +17,5 @@ public interface JWTService {
 	public String getUsername(String token);
 	public Collection<? extends GrantedAuthority> getRoles(String token) throws IOException;
 	public String resolve(String token);
+	public Map<String, Object> getDatosCliente( Authentication auth ); 
 }

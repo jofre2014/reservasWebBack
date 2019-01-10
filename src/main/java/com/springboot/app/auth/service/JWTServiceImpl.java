@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Base64Utils;
 
 import com.springboot.app.auth.SimpleGrantedAuthorityMixin;
+import com.springboot.app.models.dao.IClienteDao;
+import com.springboot.app.models.entity.Cliente;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
@@ -22,6 +28,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JWTServiceImpl implements JWTService {
+	
+	@Autowired
+	IClienteDao clienteDao; 
 
 	public static final String SECRET = Base64Utils.encodeToString("Alguna.Clave.Secreta.123456".getBytes());
 	
@@ -91,5 +100,28 @@ public class JWTServiceImpl implements JWTService {
 		}
 		return null;
 	}
+
+	@Override
+	public Map<String, Object> getDatosCliente(Authentication auth) {
+		
+		String username = ((User) auth.getPrincipal()).getUsername();		
+		Optional<Cliente> cliente = clienteDao.findById( Integer.valueOf( username ) );			
+
+		Map<String, Object> body = new HashMap<String, Object>();
+		
+		if ( cliente.isPresent() ){
+			body.put("razon", cliente.get().getRazonsocial());
+			body.put("nombreFantasia", cliente.get().getNombrefantasia());
+			body.put("nombre", cliente.get().getNombre() );
+		}else {
+			body.put("razon", "Sin especificar");
+			body.put("nombreFantasia", "Sin especificar");
+			body.put("nombre", "Sin especificar" );
+		}
+		
+		return body;	
+	}
+
+	
 
 }

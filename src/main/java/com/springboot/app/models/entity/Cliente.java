@@ -17,9 +17,19 @@ import javax.validation.constraints.NotNull;
 @Table(name="clientes")
 public class Cliente implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	@Id
 	@Column(name="codigo", unique=true)
 	private int clienteID;
+	
+	
+	@Column(name="nombre", unique=true)
+	private String nombre;
 	
 	@Column(name="Cli_Neg_ID")
 	@NotNull
@@ -356,6 +366,15 @@ public class Cliente implements Serializable {
 	public void setUpdated(Timestamp updated) {
 		this.updated = updated;
 	}
+	
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
 	public String getUuid() {
 		return uuid;
@@ -372,4 +391,20 @@ public class Cliente implements Serializable {
 	public void setClienteInternet(ClienteInternet clienteInternet) {
 		this.clienteInternet = clienteInternet;
 	}
+
+	@Override
+	public String toString() {
+		return "Cliente [clienteID=" + clienteID + ", nombre=" + nombre + ", negocioID=" + negocioID + ", cuit=" + cuit
+				+ ", razonsocial=" + razonsocial + ", nombrefantasia=" + nombrefantasia + ", fecharestaurant="
+				+ fecharestaurant + ", cantidadpaxs=" + cantidadpaxs + ", tipocliente=" + tipocliente + ", domicilio="
+				+ domicilio + ", telefono=" + telefono + ", fax=" + fax + ", email=" + email + ", numeromovil="
+				+ numeromovil + ", posicionIVA=" + posicionIVA + ", constante=" + constante + ", documentoID="
+				+ documentoID + ", tipodocumento=" + tipodocumento + ", numerodocumento=" + numerodocumento
+				+ ", limitecredito=" + limitecredito + ", nacionalidad=" + nacionalidad + ", clientecategoriaID="
+				+ clientecategoriaID + ", impositivoID=" + impositivoID + ", facturarextranjero=" + facturarextranjero
+				+ ", bloqueado=" + bloqueado + ", discapacitado=" + discapacitado + ", autoID=" + autoID + ", created="
+				+ created + ", updated=" + updated + ", uuid=" + uuid + "]";
+	}
+	
+	
 }
