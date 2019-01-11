@@ -5,6 +5,7 @@
  */
 package com.springboot.app.models.service.impl;
 
+import com.springboot.app.components.IAuthenticationFacade;
 import com.springboot.app.models.dao.IClienteGrupoCupoDao;
 import com.springboot.app.models.dao.IGrupoDao;
 import com.springboot.app.models.entity.ClienteGrupoCupo;
@@ -16,10 +17,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,8 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
     
     @Autowired IGrupoDao iGrupoDao;
 
+    @Autowired IAuthenticationFacade iAuthenticationFacade;	
+    
     @Override
     public List<ClienteGrupoCupo> findAll() {
             return iClienteGrupoCupoDao.findAll();
@@ -50,15 +51,15 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
     */
     
    	@Override
-   	public Map<String,Integer> findCupos(Long codigo, Long grupo,  String fecha_reserva) {
+   	public Map<String,Integer> findCupos(String fecha_reserva) {
    		
-   		List<Grupo> gruposInternet = new ArrayList<Grupo>();
-  		
+   		Long codigo = Long.valueOf(iAuthenticationFacade.getAuthentication().getPrincipal().toString());
+   		
+   		List<Grupo> gruposInternet = new ArrayList<Grupo>();  		
    		gruposInternet = iGrupoDao.recuperaGruposInternet();
-   		
+   		   		
    		//Calcular cantidad de dias a la reserva
    		LocalDate fecha_actual = LocalDate.now();
-   		
    		Integer cantDias = obtenerCantidadDias(fecha_actual, fecha_reserva);
    		
    		Map<String,Integer> cliGrpCupo = gruposInternet

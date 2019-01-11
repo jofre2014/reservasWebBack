@@ -17,6 +17,6 @@ public interface IClienteGrupoCupoService {
     
 	List<ClienteGrupoCupo> findAll();
 	
-	Map<String, Integer> findCupos(Long codigo, Long grupo, String fecha);
+	Map<String, Integer> findCupos(String fecha);
 
 }

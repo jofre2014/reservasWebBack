@@ -40,9 +40,9 @@ public class ClienteGrupoCupoRestController {
 	 * @author Jose
 	 */
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-	@GetMapping(value = "/cupos/{codigo}/{grupo}/{fecha}")
-	public Map<String, Integer> recuperaCupos(@PathVariable Long codigo, @PathVariable Long grupo, @PathVariable String fecha) {
-		return clienteGrupoCupoService.findCupos(codigo, grupo, fecha);
+	@GetMapping(value = "/cupos/{fecha}")
+	public Map<String, Integer> recuperaCupos(@PathVariable String fecha) {
+		return clienteGrupoCupoService.findCupos(fecha);
 	}
 
 }
