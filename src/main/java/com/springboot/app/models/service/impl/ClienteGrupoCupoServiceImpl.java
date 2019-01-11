@@ -11,14 +11,16 @@ import com.springboot.app.models.dao.IGrupoDao;
 import com.springboot.app.models.entity.ClienteGrupoCupo;
 import com.springboot.app.models.entity.Grupo;
 import com.springboot.app.models.service.IClienteGrupoCupoService;
+import com.springboot.app.pojos.CuposDisponible;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Map;
+
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,7 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
     */
     
    	@Override
-   	public Map<String,Integer> findCupos(String fecha_reserva) {
+   	public List<CuposDisponible> findCupos(String fecha_reserva) {
    		
    		Long codigo = Long.valueOf(iAuthenticationFacade.getAuthentication().getPrincipal().toString());
    		
@@ -62,15 +64,11 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
    		LocalDate fecha_actual = LocalDate.now();
    		Integer cantDias = obtenerCantidadDias(fecha_actual, fecha_reserva);
    		
-   		Map<String,Integer> cliGrpCupo = gruposInternet
-   							.stream()
-   							.collect(
-   									Collectors.toMap(Grupo::getNombre,
-   											g -> iClienteGrupoCupoDao.recuperaCupos(codigo, (long) g.getGrupoID(), cantDias)
-   													));   		
+   		List<CuposDisponible> cupDisponibles = gruposInternet.stream().
+   				map(e -> new CuposDisponible(e.getNombre(),iClienteGrupoCupoDao.recuperaCupos(codigo, (long) e.getGrupoID(), cantDias)))
+   				.collect(Collectors.toList());
    		
-
-   		return cliGrpCupo;
+   		return cupDisponibles;
    	}
    		
    	private Integer obtenerCantidadDias(LocalDate fecha_actual, String fecha_res) {

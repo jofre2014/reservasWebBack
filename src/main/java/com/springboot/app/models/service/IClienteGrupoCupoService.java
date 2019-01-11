@@ -6,8 +6,10 @@
 package com.springboot.app.models.service;
 
 import com.springboot.app.models.entity.ClienteGrupoCupo;
+import com.springboot.app.pojos.CuposDisponible;
+
 import java.util.List;
-import java.util.Map;
+
 
 /**
  *
@@ -17,6 +19,6 @@ public interface IClienteGrupoCupoService {
     
 	List<ClienteGrupoCupo> findAll();
 	
-	Map<String, Integer> findCupos(String fecha);
+	List<CuposDisponible> findCupos(String fecha);
 
 }
