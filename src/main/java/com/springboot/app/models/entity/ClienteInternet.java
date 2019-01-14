@@ -38,7 +38,7 @@ public class ClienteInternet implements Serializable {
 	private Timestamp updated;
 	
 	
-	private Boolean enabled;
+	//private Boolean enabled;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cli_internet_id")
@@ -89,13 +89,13 @@ public class ClienteInternet implements Serializable {
 		this.uuid = uuid;
 	}
 
-	public Boolean getEnabled() {
+	/*public Boolean getEnabled() {
 		return enabled;
 	}
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
-	}
+	}*/
 
 	public List<Role> getRoles() {
 		return roles;

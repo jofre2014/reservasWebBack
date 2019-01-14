@@ -24,7 +24,7 @@ public class Cliente implements Serializable {
 
 
 	@Id
-	@Column(name="codigo", unique=true)
+	@Column(name="Codigo", unique=true)
 	private int clienteID;
 	
 	
@@ -113,7 +113,7 @@ public class Cliente implements Serializable {
 	@Column(name="Cli_IDImpositivo", length=50)
 	private String impositivoID;
 	
-	//@Column(name="facturarextranjero")
+	@Column(name="facturarExtranjero")
 	@NotNull
 	private int facturarextranjero;
 	

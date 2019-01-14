@@ -46,6 +46,11 @@ public class Hotel implements Serializable {
     @Digits(integer = 1, fraction = 0)
     @Column(name = "parada_traslado")
     private short paradaTraslado;
+    
+    @NotNull
+    @Digits(integer = 1, fraction = 0)
+    @Column(name="punto_encuentro")
+    private short puntoEncuentro;
 
     @NotNull
     @Digits(integer = 4, fraction = 0)
@@ -97,8 +102,18 @@ public class Hotel implements Serializable {
     public void setParadaTraslado(short paradaTraslado) {
         this.paradaTraslado = paradaTraslado;
     }
+    
+    
 
-    public int getAutoID() {
+    public short getPuntoEncuentro() {
+		return puntoEncuentro;
+	}
+
+	public void setPuntoEncuentro(short puntoEncuentro) {
+		this.puntoEncuentro = puntoEncuentro;
+	}
+
+	public int getAutoID() {
         return autoID;
     }
 
@@ -130,62 +145,73 @@ public class Hotel implements Serializable {
         this.uuid = uuid;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.hotelID);
-        hash = 97 * hash + Objects.hashCode(this.nombre);
-        hash = 97 * hash + this.extras;
-        hash = 97 * hash + this.paradaTraslado;
-        hash = 97 * hash + this.autoID;
-        hash = 97 * hash + Objects.hashCode(this.created);
-        hash = 97 * hash + Objects.hashCode(this.updated);
-        hash = 97 * hash + Objects.hashCode(this.uuid);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + autoID;
+		result = prime * result + ((created == null) ? 0 : created.hashCode());
+		result = prime * result + extras;
+		result = prime * result + ((hotelID == null) ? 0 : hotelID.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + paradaTraslado;
+		result = prime * result + puntoEncuentro;
+		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Hotel other = (Hotel) obj;
-        if (this.extras != other.extras) {
-            return false;
-        }
-        if (this.paradaTraslado != other.paradaTraslado) {
-            return false;
-        }
-        if (this.autoID != other.autoID) {
-            return false;
-        }
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.uuid, other.uuid)) {
-            return false;
-        }
-        if (!Objects.equals(this.hotelID, other.hotelID)) {
-            return false;
-        }
-        if (!Objects.equals(this.created, other.created)) {
-            return false;
-        }
-        if (!Objects.equals(this.updated, other.updated)) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Hotel other = (Hotel) obj;
+		if (autoID != other.autoID)
+			return false;
+		if (created == null) {
+			if (other.created != null)
+				return false;
+		} else if (!created.equals(other.created))
+			return false;
+		if (extras != other.extras)
+			return false;
+		if (hotelID == null) {
+			if (other.hotelID != null)
+				return false;
+		} else if (!hotelID.equals(other.hotelID))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (paradaTraslado != other.paradaTraslado)
+			return false;
+		if (puntoEncuentro != other.puntoEncuentro)
+			return false;
+		if (updated == null) {
+			if (other.updated != null)
+				return false;
+		} else if (!updated.equals(other.updated))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "Hotel{" + "hotelID=" + hotelID + ", nombre=" + nombre + ", extras=" + extras + ", paradaTraslado=" + paradaTraslado + ", autoID=" + autoID + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + '}';
-    }
+	@Override
+	public String toString() {
+		return "Hotel [hotelID=" + hotelID + ", nombre=" + nombre + ", extras=" + extras + ", paradaTraslado="
+				+ paradaTraslado + ", puntoEncuentro=" + puntoEncuentro + ", autoID=" + autoID + ", created=" + created
+				+ ", updated=" + updated + ", uuid=" + uuid + "]";
+	}
 
+   
 }
