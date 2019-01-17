@@ -6,6 +6,9 @@
 package com.springboot.app.models.dao;
 
 import com.springboot.app.models.entity.Producto;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,4 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface IProductoDao  extends JpaRepository<Producto, Long> {
     
+	public List<Producto> findByVentainternet(short activo);
 }

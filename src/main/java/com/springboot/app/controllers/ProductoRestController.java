@@ -30,4 +30,11 @@ public class ProductoRestController {
     public List<Producto> listar() {
         return iProductoService.findAll();
     }
+    
+    @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/productosInternet")
+    public List<Producto> productosInternet(){
+    	return iProductoService.getProductosInternet((short) 1);
+    }
+    
 }

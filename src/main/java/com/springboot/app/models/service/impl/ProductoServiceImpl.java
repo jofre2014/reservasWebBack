@@ -28,5 +28,11 @@ public class ProductoServiceImpl implements IProductoService {
     public List<Producto> findAll() {
         return iProductoDao.findAll();
     }
+    
+    @Override
+    public List<Producto> getProductosInternet(short activo){
+		return iProductoDao.findByVentainternet(activo);
+    	
+    }
 
 }

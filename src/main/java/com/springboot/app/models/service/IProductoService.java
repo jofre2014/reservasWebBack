@@ -14,4 +14,6 @@ import java.util.List;
  */
 public interface IProductoService {
      List<Producto> findAll();
+
+	 List<Producto> getProductosInternet(short activo);
 }
