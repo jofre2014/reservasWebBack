@@ -5,8 +5,8 @@
  */
 package com.springboot.app.models.service;
 
+import com.springboot.app.dto.CuposDisponibleDTO;
 import com.springboot.app.models.entity.ClienteGrupoCupo;
-import com.springboot.app.pojos.CuposDisponible;
 
 import java.util.List;
 
@@ -19,6 +19,6 @@ public interface IClienteGrupoCupoService {
     
 	List<ClienteGrupoCupo> findAll();
 	
-	List<CuposDisponible> findCupos(String fecha);
+	List<CuposDisponibleDTO> findCupos(String fecha);
 
 }

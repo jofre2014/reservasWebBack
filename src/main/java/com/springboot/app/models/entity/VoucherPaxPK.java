@@ -25,16 +25,13 @@ public class VoucherPaxPK implements Serializable{
 	@Digits(integer = 4, fraction = 0)
 	private int productoID;
 	
-	@Column(name = "voucherpax_id")
-	@NotNull
-	@Digits(integer = 4, fraction = 0)
-	private int voucherpaxID;
+
 
 	public VoucherPaxPK(int voucherID, int hotelID, int productoID, int voucherpaxID) {		
 		this.voucherID = voucherID;
 		this.hotelID = hotelID;
 		this.productoID = productoID;
-		this.voucherpaxID = voucherpaxID;
+		
 	}
 
 	public int getVoucherID() {
@@ -61,13 +58,7 @@ public class VoucherPaxPK implements Serializable{
 		this.productoID = productoID;
 	}
 
-	public int getVoucherpaxID() {
-		return voucherpaxID;
-	}
 
-	public void setVoucherpaxID(int voucherpaxID) {
-		this.voucherpaxID = voucherpaxID;
-	}
 	
 	
 

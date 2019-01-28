@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.app.dto.ReservaDTO;
 import com.springboot.app.models.entity.Reserva;
 import com.springboot.app.models.service.IReservaService;
 
@@ -26,5 +29,12 @@ public class ReservaRestController {
     public List<Reserva> listar() {
         return iReservaService.findAll();
     }
+	
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+	@PostMapping("/reservas")
+	public Boolean generarReserva(@RequestBody List<ReservaDTO> reserva) {
+		return iReservaService.generarReserva(reserva);
+		
+	}
 
 }

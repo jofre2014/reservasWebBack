@@ -5,9 +5,9 @@
  */
 package com.springboot.app.controllers;
 
+import com.springboot.app.dto.CuposDisponibleDTO;
 import com.springboot.app.models.entity.ClienteGrupoCupo;
 import com.springboot.app.models.service.IClienteGrupoCupoService;
-import com.springboot.app.pojos.CuposDisponible;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class ClienteGrupoCupoRestController {
 	 */
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/cupos/{fecha}")
-	public List<CuposDisponible> recuperaCupos(@PathVariable String fecha) {
+	public List<CuposDisponibleDTO> recuperaCupos(@PathVariable String fecha) {
 		return clienteGrupoCupoService.findCupos(fecha);
 	}
 

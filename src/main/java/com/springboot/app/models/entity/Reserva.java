@@ -29,9 +29,9 @@ public class Reserva implements Serializable {
 	
 	@Id
 	@NotNull
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="Res_ID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long reservaID;
+	private int reservaID;
 
 	@NotNull
 	@Column(name="Res_Neg_ID")
@@ -177,11 +177,11 @@ public class Reserva implements Serializable {
     @Size(max = 32)
     private String uuid;
 
-	public Long getReservaID() {
+	public int getReservaID() {
 		return reservaID;
 	}
 
-	public void setReservaID(Long reservaID) {
+	public void setReservaID(int reservaID) {
 		this.reservaID = reservaID;
 	}
 
@@ -441,6 +441,8 @@ public class Reserva implements Serializable {
 		this.uuid = uuid;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -470,7 +472,7 @@ public class Reserva implements Serializable {
 		result = prime * result + pagacacheuta;
 		result = prime * result + pagacomision;
 		result = prime * result + pendiente;
-		result = prime * result + ((reservaID == null) ? 0 : reservaID.hashCode());
+		result = prime * result + reservaID;
 		result = prime * result + ((reservaarticulos == null) ? 0 : reservaarticulos.hashCode());
 		result = prime * result + reservaorigenid;
 		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
@@ -570,10 +572,7 @@ public class Reserva implements Serializable {
 			return false;
 		if (pendiente != other.pendiente)
 			return false;
-		if (reservaID == null) {
-			if (other.reservaID != null)
-				return false;
-		} else if (!reservaID.equals(other.reservaID))
+		if (reservaID != other.reservaID)
 			return false;
 		if (reservaarticulos == null) {
 			if (other.reservaarticulos != null)

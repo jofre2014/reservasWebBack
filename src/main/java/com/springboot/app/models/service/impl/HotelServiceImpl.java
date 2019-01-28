@@ -28,6 +28,28 @@ public class HotelServiceImpl implements IHotelService{
     public List<Hotel> findAll() {
         return iHotelDao.findAll();
     }
+
+	@Override
+	public List<Hotel> getHotelTraslado(short traslado) {
+		return iHotelDao.findByParadaTraslado(traslado);
+	}
+
+	@Override
+	public List<Hotel> getHotelPtoEncuentro(short ptoEncuentro) {
+		return iHotelDao.findByPuntoEncuentro(ptoEncuentro);
+	}
+
+	@Override
+	public List<Hotel> getHotelTrasladoPtoEncuentro(short traslado, short ptoEncuentro) {
+		
+		if(traslado == 1) {		
+			return iHotelDao.findByParadaTraslado(traslado);
+		}else if(ptoEncuentro == 1) {		
+			return iHotelDao.findByPuntoEncuentro(ptoEncuentro);
+		}
+		
+		return null;
+	}
     
     
     

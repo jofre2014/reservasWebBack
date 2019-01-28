@@ -8,11 +8,14 @@ package com.springboot.app.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -31,7 +34,11 @@ public class Hotel implements Serializable {
     @Id
     @NotNull
     @Column(name = "hot_id")
-    private Long hotelID;
+    @Digits(integer = 4, fraction = 0)
+    private int hotelID;
+    
+    @OneToOne(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private VoucherPax voucherpax;
 
     @NotNull
     @Column(name = "hot_nombre")
@@ -71,11 +78,11 @@ public class Hotel implements Serializable {
         super();
     }
 
-    public Long getHotelID() {
+    public int getHotelID() {
         return hotelID;
     }
 
-    public void setHotelID(Long hotelID) {
+    public void setHotelID(int hotelID) {
         this.hotelID = hotelID;
     }
 
@@ -145,6 +152,8 @@ public class Hotel implements Serializable {
         this.uuid = uuid;
     }
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -152,7 +161,7 @@ public class Hotel implements Serializable {
 		result = prime * result + autoID;
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
 		result = prime * result + extras;
-		result = prime * result + ((hotelID == null) ? 0 : hotelID.hashCode());
+		result = prime * result + hotelID;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + paradaTraslado;
 		result = prime * result + puntoEncuentro;
@@ -179,10 +188,7 @@ public class Hotel implements Serializable {
 			return false;
 		if (extras != other.extras)
 			return false;
-		if (hotelID == null) {
-			if (other.hotelID != null)
-				return false;
-		} else if (!hotelID.equals(other.hotelID))
+		if (hotelID != other.hotelID)
 			return false;
 		if (nombre == null) {
 			if (other.nombre != null)

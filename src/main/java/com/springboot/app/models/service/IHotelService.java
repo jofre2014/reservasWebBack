@@ -14,4 +14,10 @@ import java.util.List;
  */
 public interface IHotelService {
      List<Hotel> findAll();
+     
+     List<Hotel> getHotelTraslado(short traslado);
+     
+     List<Hotel> getHotelPtoEncuentro(short ptoEncuentro);
+     
+     List<Hotel> getHotelTrasladoPtoEncuentro(short traslado, short ptoEncuentro);
 }

@@ -1,11 +1,11 @@
-package com.springboot.app.pojos;
+package com.springboot.app.dto;
 
-public class CuposDisponible {
+public class CuposDisponibleDTO {
 	
 	private String nombreServicio;
 	private Integer cantidadCupo;
 	
-	public CuposDisponible(String nombreServicio, Integer cantidadCupo) {
+	public CuposDisponibleDTO(String nombreServicio, Integer cantidadCupo) {
 		this.nombreServicio = nombreServicio;
 		this.cantidadCupo = cantidadCupo;
 		

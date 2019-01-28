@@ -1,10 +1,17 @@
 package com.springboot.app.models.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
@@ -13,11 +20,36 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="voucherpax")
-public class VoucherPax {
+public class VoucherPax implements Serializable {
 	
-	@Valid
-    @EmbeddedId
-    private VoucherPaxPK vaucherPaxPK;
+//	@Valid
+//    @EmbeddedId
+//    private VoucherPaxPK vaucherPaxPK;
+	
+	/**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "voucherpax_id")
+	@NotNull
+	@Digits(integer = 4, fraction = 0)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)	
+	private int voucherpaxID;
+	
+	@ManyToOne
+    @JoinColumn(name = "voucher_id", nullable = false, updatable = false)
+    private Voucher voucher;
+	
+	@ManyToOne
+	@JoinColumn(name = "producto_id, nullable = false, updatable = false")
+	private Producto producto;
+	
+	@OneToOne
+    @JoinColumn(name = "hotel_id", updatable = false, nullable = false)
+    private Hotel hotel;
 	
 	@NotNull
 	@Column(name="apellido")
@@ -51,7 +83,7 @@ public class VoucherPax {
 
 	@Column(name="telefono")
 	@Size(max=30)
-	private Date telefono;
+	private String telefono;
 		
 	@NotNull
 	@Column(name="whatsapp")
@@ -67,13 +99,6 @@ public class VoucherPax {
     @Size(max = 32)
     private String uuid;
 
-	public VoucherPaxPK getVaucherPaxPK() {
-		return vaucherPaxPK;
-	}
-
-	public void setVaucherPaxPK(VoucherPaxPK vaucherPaxPK) {
-		this.vaucherPaxPK = vaucherPaxPK;
-	}
 
 	public String getApellido() {
 		return apellido;
@@ -123,11 +148,11 @@ public class VoucherPax {
 		this.fechaServicio = fechaServicio;
 	}
 
-	public Date getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(Date telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
@@ -162,6 +187,40 @@ public class VoucherPax {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+	
+	
+
+	public int getVoucherpaxID() {
+		return voucherpaxID;
+	}
+
+	public void setVoucherpaxID(int voucherpaxID) {
+		this.voucherpaxID = voucherpaxID;
+	}
+
+	public Voucher getVoucher() {
+		return voucher;
+	}
+
+	public void setVoucher(Voucher voucher) {
+		this.voucher = voucher;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
 
 	@Override
 	public int hashCode() {
@@ -177,7 +236,7 @@ public class VoucherPax {
 		result = prime * result + ((telefono == null) ? 0 : telefono.hashCode());
 		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		result = prime * result + ((vaucherPaxPK == null) ? 0 : vaucherPaxPK.hashCode());
+		result = prime * result + voucherpaxID;
 		result = prime * result + whatsapp;
 		return result;
 	}
@@ -235,10 +294,7 @@ public class VoucherPax {
 				return false;
 		} else if (!uuid.equals(other.uuid))
 			return false;
-		if (vaucherPaxPK == null) {
-			if (other.vaucherPaxPK != null)
-				return false;
-		} else if (!vaucherPaxPK.equals(other.vaucherPaxPK))
+		if (voucherpaxID != other.voucherpaxID)
 			return false;
 		if (whatsapp != other.whatsapp)
 			return false;
@@ -247,11 +303,12 @@ public class VoucherPax {
 
 	@Override
 	public String toString() {
-		return "VoucherPax [vaucherPaxPK=" + vaucherPaxPK + ", apellido=" + apellido + ", nombre=" + nombre
+		return "VoucherPax [voucherpaxID=" + voucherpaxID + ", apellido=" + apellido + ", nombre=" + nombre
 				+ ", documento=" + documento + ", edad=" + edad + ", alojado=" + alojado + ", fechaServicio="
 				+ fechaServicio + ", telefono=" + telefono + ", whatsapp=" + whatsapp + ", created=" + created
 				+ ", updated=" + updated + ", uuid=" + uuid + "]";
 	}
+	
 	
 	
 	

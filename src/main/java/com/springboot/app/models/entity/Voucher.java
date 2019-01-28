@@ -7,12 +7,16 @@ package com.springboot.app.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -31,9 +35,11 @@ public class Voucher implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Vou_ID")
-    @Digits(integer = 4, fraction = 0)
     @NotNull
     private int voucherID;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voucher")
+    private List<VoucherPax> voucherpax;
 
     @Column(name = "Vou_FechaReserva")
     private Date fechatoma;
@@ -119,13 +125,12 @@ public class Voucher implements Serializable {
 
     @NotNull
     @Column(name = "Vou_Res_ID")
-    @Digits(integer = 4, fraction = 0)
     private int reservaID;
 
     @NotNull
     @Column(name = "Vou_NroVoucher")
     @Size(max = 50)
-    private int numerovoucher;
+    private String numerovoucher;
 
     @NotNull
     @Column(name = "Vou_Usuario")
@@ -341,11 +346,11 @@ public class Voucher implements Serializable {
         this.reservaID = reservaID;
     }
 
-    public int getNumerovoucher() {
+    public String getNumerovoucher() {
         return numerovoucher;
     }
 
-    public void setNumerovoucher(int numerovoucher) {
+    public void setNumerovoucher(String numerovoucher) {
         this.numerovoucher = numerovoucher;
     }
 
@@ -476,7 +481,7 @@ public class Voucher implements Serializable {
         hash = 59 * hash + this.proveedorID;
         hash = 59 * hash + Objects.hashCode(this.planilla);
         hash = 59 * hash + this.reservaID;
-        hash = 59 * hash + this.numerovoucher;
+        hash = 59 * hash + Objects.hashCode(this.numerovoucher);
         hash = 59 * hash + Objects.hashCode(this.usuario);
         hash = 59 * hash + Objects.hashCode(this.conffecharecepcion);
         hash = 59 * hash + Objects.hashCode(this.conffechaemision);
