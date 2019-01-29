@@ -7,6 +7,7 @@ package com.springboot.app.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -37,8 +39,11 @@ public class Hotel implements Serializable {
     @Digits(integer = 4, fraction = 0)
     private int hotelID;
     
-    @OneToOne(mappedBy = "hotel", cascade = CascadeType.ALL)
-    private VoucherPax voucherpax;
+//    @OneToOne(mappedBy = "hotel", cascade = CascadeType.ALL)
+//    private VoucherPax voucherpax;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+    private List<VoucherPax> voucherpax;
 
     @NotNull
     @Column(name = "hot_nombre")

@@ -36,7 +36,7 @@ public class VoucherPax implements Serializable {
 	@Column(name = "voucherpax_id")
 	@NotNull
 	@Digits(integer = 4, fraction = 0)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int voucherpaxID;
 	
 	@ManyToOne
@@ -44,7 +44,7 @@ public class VoucherPax implements Serializable {
     private Voucher voucher;
 	
 	@ManyToOne
-	@JoinColumn(name = "producto_id, nullable = false, updatable = false")
+	@JoinColumn(name = "producto_id", nullable = false, updatable = false)
 	private Producto producto;
 	
 	@OneToOne

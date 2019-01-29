@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import com.springboot.app.models.dao.IReservaDao;
 import com.springboot.app.models.dao.IVoucherDao;
 import com.springboot.app.models.dao.IVoucherPaxDao;
 import com.springboot.app.models.dao.IVoucherProductoDao;
+import com.springboot.app.models.entity.Hotel;
+import com.springboot.app.models.entity.Producto;
 import com.springboot.app.models.entity.Reserva;
 import com.springboot.app.models.entity.Voucher;
 import com.springboot.app.models.entity.VoucherPax;
@@ -38,10 +42,10 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 @Transactional(readOnly = true)
 public class ReservaServiceImpl implements IReservaService {
 	
-	private Voucher voucher = new Voucher();
-	private Reserva newReserva = new Reserva();
-	private VoucherProducto newVoucherProd = new VoucherProducto();
-	private VoucherPax voucherPax = new VoucherPax();
+	private Voucher voucher; 
+	private Reserva newReserva;
+	private VoucherProducto newVoucherProd;
+	private VoucherPax voucherPax;
 
 	private ReservaDTO reserva;
 	private int cantidadPaxs = 0;
@@ -69,7 +73,10 @@ public class ReservaServiceImpl implements IReservaService {
 	@Override
 	@Transactional(readOnly = false)
 	public Boolean generarReserva(List<ReservaDTO> datosReserva) {
-
+		this.voucher = new Voucher();
+		newReserva = new Reserva();
+		newVoucherProd = new VoucherProducto();	
+		
 		cantidadPaxs = datosReserva.size();
 
 		// Registrar Voucher(Solo necesito el primer objeto de la lista)
@@ -90,12 +97,10 @@ public class ReservaServiceImpl implements IReservaService {
 		// Registrar VoucherPax
 		datosReserva.stream().forEach(res -> {
 			registrarVoucherPax(res);
-
 		});
 		
 		// Registrar VoucherProducto
-		registrarVoucherProd();
-		
+		registrarVoucherProd();	
 		
 
 		// Verificar datos del Objeto Voucher
@@ -106,23 +111,55 @@ public class ReservaServiceImpl implements IReservaService {
 
 	private void registrarVoucherPax(ReservaDTO reserva) {
 		
+		voucherPax = new VoucherPax();
+		
+		System.out.println("registrarVoucherPax");
+		Producto prod = new Producto();
+		prod = reserva.producto;
+		
+		Hotel hotel = new Hotel();
+		hotel = reserva.hotel;
+		
+		Voucher voucher = new Voucher();
+		voucher.setVoucherID(this.voucher.getVoucherID());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date fechaServicio = null;
+		try {
+			fechaServicio = formatter.parse(reserva.FechaServicio);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+			
 		voucherPax.setAlojado((short)(reserva.alojado == true ? 1 : 0));
 		voucherPax.setApellido(reserva.apellido);
 		voucherPax.setCreated(new Date());
 		voucherPax.setDocumento((long) reserva.dni);
 		voucherPax.setEdad((short) reserva.edad);
-		voucherPax.setFechaServicio(new Date(reserva.FechaServicio));
+		voucherPax.setFechaServicio(fechaServicio);
 		voucherPax.setNombre(reserva.nombre);
 		voucherPax.setTelefono(reserva.telefono);
 		voucherPax.setUuid("");
 		voucherPax.setWhatsapp((short)(reserva.whatapp == true ? 1 : 0));
-		voucherPax.setProducto(producto);
+		voucherPax.setProducto(prod);
+		voucherPax.setHotel(hotel);
+		voucherPax.setVoucher(voucher);
+		voucherPax.setUpdated(new Date());
+		iVoucherPaxDao.save(voucherPax);
+		
+		
+		printObjToJSON(voucherPax);
+		
+		
 	}
 
 	private void registrarVoucherProd() {
 		// TODO Auto-generated method stub
 //		this.newVoucherProd.setCantidadpaxs(this.voucher.getCantidadpaxs());
 //		this.newVoucherProd.set
+		System.out.println("registrarVoucherProd");
 		
 		
 	}
