@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -20,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.app.components.IAuthenticationFacade;
 import com.springboot.app.dto.ReservaDTO;
+import com.springboot.app.dto.VoucherProductoDTO;
 import com.springboot.app.models.dao.IReservaDao;
 import com.springboot.app.models.dao.IVoucherDao;
 import com.springboot.app.models.dao.IVoucherPaxDao;
@@ -44,11 +48,15 @@ public class ReservaServiceImpl implements IReservaService {
 	
 	private Voucher voucher; 
 	private Reserva newReserva;
+
 	private VoucherProducto newVoucherProd;
 	private VoucherPax voucherPax;
+	
+	private List<VoucherProducto> voucherProd ;
 
-	private ReservaDTO reserva;
 	private int cantidadPaxs = 0;
+	private StringBuilder cadenaResumenProd;
+	private Map<Integer, String> listProd;
 
 	@Autowired
 	IReservaDao iReservaDao;
@@ -73,11 +81,16 @@ public class ReservaServiceImpl implements IReservaService {
 	@Override
 	@Transactional(readOnly = false)
 	public Boolean generarReserva(List<ReservaDTO> datosReserva) {
+		this.cadenaResumenProd = new StringBuilder();
 		this.voucher = new Voucher();
+		this.listProd = new HashMap<Integer, String>();
 		newReserva = new Reserva();
-		newVoucherProd = new VoucherProducto();	
+			
+		voucherProd = new ArrayList<VoucherProducto>();
 		
 		cantidadPaxs = datosReserva.size();
+		
+		 
 
 		// Registrar Voucher(Solo necesito el primer objeto de la lista)
 		registrarVoucher(datosReserva.get(0));
@@ -88,29 +101,57 @@ public class ReservaServiceImpl implements IReservaService {
 		this.newReserva.setCantidadpaxs((short) cantidadPaxs);
 		iReservaDao.save(this.newReserva);
 
+		// Registrar VoucherPax
+		datosReserva.stream().forEach(res -> {
+			registrarVoucherPax(res);					
+		});
+				
+		obtenerCadenaResumen(this.listProd);
+		
 		// Actualizo atributo voucher
 		this.voucher.setVoucherID(this.voucher.getVoucherID());
 		this.voucher.setCantidadpaxs((short) cantidadPaxs);
 		this.voucher.setReservaID(this.newReserva.getReservaID());
+		this.voucher.setProductos(cadenaResumenProd.toString());
 		iVoucherDao.save(this.voucher);
+				
+		// Crea lista Agrupada por Producto y contabiliza cantidad de pasajeros.
+		List<VoucherProducto> reduceVoucherProd = this.voucherProd.stream()
+					.collect(Collectors.groupingBy(vp -> vp.getProductoID() ))
+					.entrySet().stream()
+					.map(e -> e.getValue().stream()
+							.reduce((f1, f2) -> 
+								new VoucherProducto(f1.getProductoID(),f1.getVoucherID()
+									,((short) (f1.getCantidadpaxs() + f2.getCantidadpaxs())), 
+									f1.getCreated(), f1.getUpdated(), 
+									f1.getUuid())))
+					.map(f -> f.get())
+					.collect(Collectors.toList());	
 		
-		// Registrar VoucherPax
-		datosReserva.stream().forEach(res -> {
-			registrarVoucherPax(res);
-		});
+	iVoucherProductoDao.saveAll(reduceVoucherProd);
 		
-		// Registrar VoucherProducto
-		registrarVoucherProd();	
-		
-
-		// Verificar datos del Objeto Voucher
-		printObjToJSON(this.voucher);
+//		System.out.println("Lista VocuherProducto: ");
+//		reduceVoucherProd.forEach(obj -> printObjToJSON(obj)); 
+	
 
 		return null;
 	}
 
 	private void registrarVoucherPax(ReservaDTO reserva) {
 		
+		// Cargo datos para VoucherProducto
+		newVoucherProd = new VoucherProducto();
+		
+		newVoucherProd.setVoucherID(this.voucher.getVoucherID());
+		newVoucherProd.setUpdated(new Date());
+		newVoucherProd.setCreated(new Date());
+		newVoucherProd.setProductoID((short) reserva.getProducto().getProductoID());
+		newVoucherProd.setCantidadpaxs((short) 1);
+		newVoucherProd.setUuid("0");
+
+		voucherProd.add(newVoucherProd);
+		
+			
 		voucherPax = new VoucherPax();
 		
 		System.out.println("registrarVoucherPax");
@@ -152,15 +193,17 @@ public class ReservaServiceImpl implements IReservaService {
 		
 		printObjToJSON(voucherPax);
 		
+		// Guardo los productos sin repetirse
+			if(!this.listProd.containsKey(reserva.producto.getProductoID()))
+				this.listProd.put(reserva.producto.getProductoID(), reserva.producto.getNombre());
 		
 	}
 
-	private void registrarVoucherProd() {
-		// TODO Auto-generated method stub
-//		this.newVoucherProd.setCantidadpaxs(this.voucher.getCantidadpaxs());
-//		this.newVoucherProd.set
-		System.out.println("registrarVoucherProd");
+	private void obtenerCadenaResumen(Map<Integer, String> listProd) {
 		
+		listProd.forEach((k, v) -> 		
+			this.cadenaResumenProd.append(this.cadenaResumenProd.length() == 0 ? v : (" + " + v))		
+			 );		
 		
 	}
 

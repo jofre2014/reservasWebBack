@@ -36,7 +36,7 @@ public class Producto  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Prd_ID")
     @NotNull
-    private Long productoID;
+    private int productoID;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<VoucherPax> voucherpax;
@@ -83,11 +83,11 @@ public class Producto  implements Serializable {
         super();
     }
 
-    public Long getProductoID() {
+    public int getProductoID() {
         return productoID;
     }
 
-    public void setProductoID(Long productoID) {
+    public void setProductoID(int productoID) {
         this.productoID = productoID;
     }
 

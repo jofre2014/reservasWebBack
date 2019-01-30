@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Romina
  */
-public interface IProductoDao  extends JpaRepository<Producto, Long> {
+public interface IProductoDao  extends JpaRepository<Producto, Integer> {
     
 	public List<Producto> findByVentainternet(short activo);
 }

@@ -37,12 +37,12 @@ public class VoucherProducto implements Serializable{
 
     @Column(name = "VPr_Vou_ID")
     @NotNull
-    @Digits(integer = 4, fraction = 0)
+    //@Digits(integer = 4, fraction = 0)
     private int voucherID;
     
     @Column(name = "VPr_Prd_ID")
     @NotNull
-    @Digits(integer = 2, fraction = 0)
+   // @Digits(integer = 2, fraction = 0)
     private short productoID;
    
     @Column(name = "VPr_Paxs")
@@ -59,10 +59,24 @@ public class VoucherProducto implements Serializable{
     @Size(max = 32)
     private String uuid;
 
+        
+    public VoucherProducto( short productoID,int voucherID, short cantidadpaxs, Date created,
+			Date updated, String uuid) {
+		super();
+		
+		this.voucherID = voucherID;
+		this.productoID = productoID;
+		this.cantidadpaxs = cantidadpaxs;
+		this.created = created;
+		this.updated = updated;
+		this.uuid = uuid;
+	}
+    
     public VoucherProducto() {
-        super();
+    	
     }
 
+    
     public int getVoucherproductoID() {
         return voucherproductoID;
     }
