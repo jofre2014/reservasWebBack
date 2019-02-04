@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="clienteinternet")
@@ -38,8 +39,6 @@ public class ClienteInternet implements Serializable {
 	private Timestamp updated;
 	
 	
-	//private Boolean enabled;
-
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cli_internet_id")
 	private List<Role> roles;

@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -24,19 +25,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.app.components.IAuthenticationFacade;
 import com.springboot.app.dto.ReservaDTO;
 import com.springboot.app.dto.VoucherProductoDTO;
+import com.springboot.app.models.dao.IArticuloDao;
+import com.springboot.app.models.dao.IProductoArticuloDao;
+import com.springboot.app.models.dao.IReservaArticuloDao;
 import com.springboot.app.models.dao.IReservaDao;
 import com.springboot.app.models.dao.IVoucherDao;
 import com.springboot.app.models.dao.IVoucherPaxDao;
 import com.springboot.app.models.dao.IVoucherProductoDao;
+import com.springboot.app.models.entity.Articulo;
 import com.springboot.app.models.entity.Hotel;
 import com.springboot.app.models.entity.Producto;
 import com.springboot.app.models.entity.Reserva;
+import com.springboot.app.models.entity.ReservaArticulo;
 import com.springboot.app.models.entity.Voucher;
 import com.springboot.app.models.entity.VoucherPax;
 import com.springboot.app.models.entity.VoucherProducto;
 import com.springboot.app.models.service.IReservaService;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
+
 
 /**
  *
@@ -53,8 +59,11 @@ public class ReservaServiceImpl implements IReservaService {
 	private VoucherPax voucherPax;
 	
 	private List<VoucherProducto> voucherProd ;
+	
+	private List<ReservaArticulo> reservaArticulo;
 
 	private int cantidadPaxs = 0;
+	private boolean first;
 	private StringBuilder cadenaResumenProd;
 	private Map<Integer, String> listProd;
 
@@ -72,6 +81,14 @@ public class ReservaServiceImpl implements IReservaService {
 
 	@Autowired
 	IAuthenticationFacade iAuthenticationFacade;
+	
+	@Autowired
+	IProductoArticuloDao iProductoArticuloDao;
+	
+	@Autowired 
+	IArticuloDao iArticuloDao; 
+	
+	@Autowired IReservaArticuloDao iReservaArticuloDao;
 
 	@Override
 	public List<Reserva> findAll() {
@@ -87,6 +104,7 @@ public class ReservaServiceImpl implements IReservaService {
 		newReserva = new Reserva();
 			
 		voucherProd = new ArrayList<VoucherProducto>();
+		reservaArticulo = new ArrayList<ReservaArticulo>();
 		
 		cantidadPaxs = datosReserva.size();
 		
@@ -129,11 +147,48 @@ public class ReservaServiceImpl implements IReservaService {
 					.collect(Collectors.toList());	
 		
 	iVoucherProductoDao.saveAll(reduceVoucherProd);
-		
-//		System.out.println("Lista VocuherProducto: ");
-//		reduceVoucherProd.forEach(obj -> printObjToJSON(obj)); 
+	
+	// Registrar ReservaArticulo
+	this.first = true;
+	reduceVoucherProd.forEach(a -> registrarReservaArticulo(a));
+	
+	iReservaArticuloDao.saveAll(reservaArticulo);
+ 
 	
 
+		return null;
+	}
+
+	private Object registrarReservaArticulo(VoucherProducto a) {
+		
+		String articuloID = iProductoArticuloDao.recuperaIdArticulo(a.getProductoID());
+		
+		Optional<Articulo> dataArticulo = iArticuloDao.findById(articuloID);
+		
+		ReservaArticulo newReservaArticulo = new ReservaArticulo();
+		newReservaArticulo.setArticuloID(articuloID);
+		newReservaArticulo.setCantidad(a.getCantidadpaxs());
+		newReservaArticulo.setCreated(new Date());
+		newReservaArticulo.setUpdated(new Date());
+		newReservaArticulo.setNegocioID((short) 54); // HardCode Por ahora
+		newReservaArticulo.setVoucherID(a.getVoucherID());
+		newReservaArticulo.setReservaID(this.newReserva.getReservaID());
+		newReservaArticulo.setComision(dataArticulo.get().getComision());
+		newReservaArticulo.setPreciounitariosincomision(dataArticulo.get().getPrecioventaconiva());
+		
+		double precioUnitario = dataArticulo.get().getPrecioventaconiva() * (1 - dataArticulo.get().getComision());
+		newReservaArticulo.setPreciounitario(precioUnitario);
+		newReservaArticulo.setUuid("");
+		
+		String obs =  this.first == false ? "" : "RVA " + this.newReserva.getReservaID() + " " + this.voucher.getNombrepax() + " x " + this.voucher.getCantidadpaxs() + " " + this.voucher.getProductos() + " " + this.voucher.getFechaservicio();
+		newReservaArticulo.setObservaciones(obs);
+		
+		System.out.println("Verificacion datos objeto newREservaArticulo");
+		printObjToJSON(newReservaArticulo);
+		
+		reservaArticulo.add(newReservaArticulo);
+		
+		this.first = false;
 		return null;
 	}
 
@@ -241,7 +296,8 @@ public class ReservaServiceImpl implements IReservaService {
 		this.voucher.setHoravencimiento(null);
 		this.voucher.setNombrepax(reserva.getApellido() + " " + reserva.getNombre());
 		// this.voucher.setCantidadpaxs(cantidadpaxs);
-		this.voucher.setSubeen(reserva.hotel.getNombre());
+//		this.voucher.setSubeen(reserva.hotel.getNombre());
+		this.voucher.setSubeen("");
 		this.voucher.setHotelID(reserva.hotel.getHotelID());
 		this.voucher.setProductos(reserva.producto.getNombre());
 		this.voucher.setPlanilla("-");
@@ -271,7 +327,7 @@ public class ReservaServiceImpl implements IReservaService {
 		this.newReserva.setFechavencimiento(this.voucher.getFechavencimiento());
 		this.newReserva.setHoravencimiento(this.voucher.getHoravencimiento());
 		this.newReserva.setPendiente((short) 1);
-		this.newReserva.setConfirmada((short) 0);
+		this.newReserva.setConfirmada((short)reservaDTO.getConfirmada());
 		this.newReserva.setFacturada((short) 0);
 		this.newReserva.setAnulada((short) 0);
 		this.newReserva.setEliminada((short) 0);
@@ -302,6 +358,17 @@ public class ReservaServiceImpl implements IReservaService {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public List<Reserva> findByConfirmada(short confirmada) {
+		
+		return iReservaDao.findByConfirmada(confirmada);
+	}
+
+	@Override
+	public List<Reserva> findConfirmadaXCliente(int cliente, short estado) {
+		return iReservaDao.findConfirmadaXCliente(cliente, estado);
 	}
 
 }

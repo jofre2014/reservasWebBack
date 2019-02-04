@@ -36,10 +36,7 @@ public class Producto  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Prd_ID")
     @NotNull
-    private int productoID;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
-    private List<VoucherPax> voucherpax;
+    private int productoID;  
 
     @Column(name = "Prd_Nombre")
     @NotNull
@@ -78,6 +75,12 @@ public class Producto  implements Serializable {
     @NotNull
     @Size(max = 32)
     private String uuid;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
+    private List<VoucherPax> voucherpax;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
+    private List<ProductoArticulo> productoArticulo;
 
     public Producto() {
         super();

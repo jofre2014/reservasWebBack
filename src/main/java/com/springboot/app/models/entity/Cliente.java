@@ -46,7 +46,7 @@ public class Cliente implements Serializable {
 	@Column(name="Cli_Fantasia", length=100)
 	private String nombrefantasia;
 	
-	@Column(name="Cli_FechaRestaurant")
+	@Column(name="Cli_Fecharestaurant")
 	private Date fecharestaurant;
 	
 	@NotNull
@@ -90,7 +90,7 @@ public class Cliente implements Serializable {
 	private int documentoID;
 	
 	@NotNull
-	@Column(name="TipoDoc", length=50)
+	@Column(name="Tipodoc", length=50)
 	private String tipodocumento; 
 	
 	@NotNull
@@ -98,7 +98,7 @@ public class Cliente implements Serializable {
 	private String numerodocumento; 
 	
 	@NotNull
-	@Column(name="LimiteCredito")
+	@Column(name="Limitecredito")
 	private Float limitecredito;
 	
 	@NotNull
@@ -113,7 +113,7 @@ public class Cliente implements Serializable {
 	@Column(name="Cli_IDImpositivo", length=50)
 	private String impositivoID;
 	
-	@Column(name="facturarExtranjero")
+	@Column(name="facturarextranjero")
 	@NotNull
 	private int facturarextranjero;
 	

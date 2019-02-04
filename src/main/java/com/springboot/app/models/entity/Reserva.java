@@ -55,12 +55,12 @@ public class Reserva implements Serializable {
 	@Column(name="Res_Vto")
 	private Date fechavencimiento;
 	
-	@Column(name="Res_HoraVto")
+	@Column(name="Res_Horavto")
 	@Temporal(TemporalType.TIME)
 	private Date horavencimiento;
 	
 	@NotNull
-	@Column(name="Res_AvisoMail")
+	@Column(name="Res_Avisomail")
 	@Digits(integer = 1, fraction = 0)
 	private short avisomail;
 	
@@ -95,7 +95,7 @@ public class Reserva implements Serializable {
 	private short verificada;
 	
 	@NotNull
-	@Column(name="Res_NombrePax")
+	@Column(name="Res_Nombrepax")
 	@Size(max = 250)
 	private String nombrepax;
 	
@@ -114,32 +114,32 @@ public class Reserva implements Serializable {
 	private int voucherID;
 	
 	@NotNull
-	@Column(name="Res_PagaComision")
+	@Column(name="Res_Pagacomision")
 	@Digits(integer = 1, fraction = 0)
 	private short pagacomision;
 	
 	@NotNull
-	@Column(name="Res_ObsComision")
+	@Column(name="Res_Obscomision")
 	@Size(max = 250)
 	private String observcomision;
 	
 	@NotNull
-	@Column(name="Res_ComisionPagada")
+	@Column(name="Res_Comisionpagada")
 	@Digits(integer = 1, fraction = 0)
 	private short comisionpagada;
 	
 	@NotNull
-	@Column(name="Res_PagaCacheuta")
+	@Column(name="Res_Pagacacheuta")
 	@Digits(integer = 1, fraction = 0)
 	private short pagacacheuta;
 	
 	@NotNull
-	@Column(name="Res_FacturadoFuera")
+	@Column(name="Res_Facturadofuera")
 	@Digits(integer = 1, fraction = 0)
 	private short facturadofuera;
 	
 	@NotNull
-	@Column(name="Res_ReservaArticulo")
+	@Column(name="Res_Reservaarticulo")
 	@Size(max = 255)
 	private String reservaarticulos;
 	
@@ -154,12 +154,12 @@ public class Reserva implements Serializable {
 	private String contacto;
 	
 	@NotNull
-	@Column(name="Res_ReO_ID")
+	@Column(name="Res_Reo_ID")
 	@Digits(integer = 2, fraction = 0)
 	private short reservaorigenid;
 	
 	@NotNull
-	@Column(name="facturarExtranjero")
+	@Column(name="facturarextranjero")
 	@Digits(integer = 1, fraction = 0)
 	private short facturarextranjero;
 	

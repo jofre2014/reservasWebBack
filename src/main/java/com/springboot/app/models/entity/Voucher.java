@@ -41,19 +41,19 @@ public class Voucher implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "voucher")
     private List<VoucherPax> voucherpax;
 
-    @Column(name = "Vou_FechaReserva")
+    @Column(name = "Vou_Fechareserva")
     private Date fechatoma;
 
-    @Column(name = "Vou_FechaIn")
+    @Column(name = "Vou_Fechain")
     private Date fechaservicio;
 
     @Column(name = "Vou_Vto")
     private Date fechavencimiento;
 
-    @Column(name = "Vou_HoraVto")
+    @Column(name = "Vou_Horavto")
     private Date horavencimiento;
 
-    @Column(name = "Vou_NombrePax")
+    @Column(name = "Vou_Nombrepax")
     @NotNull
     @Size(max = 150)
     private String nombrepax;
@@ -64,7 +64,7 @@ public class Voucher implements Serializable {
     private short cantidadpaxs;
 
     @NotNull
-    @Column(name = "Vou_SubeEn")
+    @Column(name = "Vou_Subeen")
     @Size(max = 150)
     private String subeen;
 
@@ -109,7 +109,7 @@ public class Voucher implements Serializable {
     private String contacto;
 
     @NotNull
-    @Column(name = "Vou_PaxsReales")
+    @Column(name = "Vou_Paxsreales")
     @Digits(integer = 2, fraction = 0)
     private int paxsreales;
 
@@ -128,7 +128,7 @@ public class Voucher implements Serializable {
     private int reservaID;
 
     @NotNull
-    @Column(name = "Vou_NroVoucher")
+    @Column(name = "Vou_Nrovoucher")
     @Size(max = 50)
     private String numerovoucher;
 
@@ -137,17 +137,17 @@ public class Voucher implements Serializable {
     @Size(max = 20)
     private String usuario;
 
-    @Column(name = "Vou_FechaRecepcion")
+    @Column(name = "Vou_Fecharecepcion")
     private Date conffecharecepcion;
 
-    @Column(name = "Vou_FechaEmision")
+    @Column(name = "Vou_Fechaemision")
     private Date conffechaemision;
 
     @Column(name = "Vou_Numero")
     @Size(max = 50)
     private String confnumero;
 
-    @Column(name = "Vou_CantidadPax")
+    @Column(name = "Vou_Cantidadpax")
     @Digits(integer = 2, fraction = 0)
     private int confcantidadpaxs;
 
@@ -155,11 +155,11 @@ public class Voucher implements Serializable {
     @Size(max = 250)
     private String confnombre;
 
-    @Column(name = "Vou_ConTraslado")
+    @Column(name = "Vou_Contraslado")
     @Digits(integer = 1, fraction = 0)
     private short confcontraslado;
 
-    @Column(name = "Vou_PaxsNoShow")
+    @Column(name = "Vou_Paxsnoshow")
     @Digits(integer = 2, fraction = 0)
     private int confpaxsnoshow;
 

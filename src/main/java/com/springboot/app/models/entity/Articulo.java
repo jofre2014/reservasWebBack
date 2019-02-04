@@ -7,12 +7,16 @@ package com.springboot.app.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -49,47 +53,47 @@ public class Articulo implements Serializable {
     @Size(max = 150)
     private String leyendavoucher;
 
-    @Column(name = "precioVentaSinIva")
+    @Column(name = "precioventasiniva")
     @NotNull
     @Digits(integer = 16, fraction = 2)
     private double precioventasiniva;
 
-    @Column(name = "PrecioUnitario")
+    @Column(name = "Preciounitario")
     @NotNull
     @Digits(integer = 16, fraction = 2)
     private double precioventaconiva;
 
-    @Column(name = "CgoContable")
+    @Column(name = "Cgocontable")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int cuentaventas;
 
-    @Column(name = "CgoContableCompras")
+    @Column(name = "Cgocontablecompras")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int cuentacompras;
 
-    @Column(name = "CgoContableGastos")
+    @Column(name = "Cgocontablegastos")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int cuentagastos;
 
-    @Column(name = "CgoCentro")
+    @Column(name = "Cgocentro")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int centrostockID;
 
-    @Column(name = "CgoRubro")
+    @Column(name = "Cgorubro")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int rubroID;
 
-    @Column(name = "CgoSubRubro")
+    @Column(name = "Cgosubrubro")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int subrubroID;
 
-    @Column(name = "PrecioCompra")
+    @Column(name = "Preciocompra")
     @NotNull
     @Digits(integer = 16, fraction = 2)
     private double preciocompra;
@@ -99,7 +103,7 @@ public class Articulo implements Serializable {
     @Digits(integer = 1, fraction = 0)
     private short iva105;
 
-    @Column(name = "Art_CompraNeto")
+    @Column(name = "Art_Compraneto")
     @NotNull
     @Digits(integer = 16, fraction = 2)
     private double preciocompraneto;
@@ -109,37 +113,37 @@ public class Articulo implements Serializable {
     @Digits(integer = 1, fraction = 0)
     private short exento;
 
-    @Column(name = "StockMinimo")
+    @Column(name = "Stockminimo")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int stockminimo;
 
-    @Column(name = "StockOptimo")
+    @Column(name = "Stockoptimo")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int stockoptimo;
 
-    @Column(name = "BloqueoCompras")
+    @Column(name = "Bloqueocompras")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short bloqueocompras;
 
-    @Column(name = "BloqueoStock")
+    @Column(name = "Bloqueostock")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short bloqueostock;
 
-    @Column(name = "BloqueoVentas")
+    @Column(name = "Bloqueoventas")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short bloqueoventas;
 
-    @Column(name = "Art_UMe_ID")
+    @Column(name = "Art_Ume_ID")
     @NotNull
     @Digits(integer = 4, fraction = 0)
     private int unidadmedidaID;
 
-    @Column(name = "Art_ConDecimales")
+    @Column(name = "Art_Condecimales")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short condecimales;
@@ -154,7 +158,7 @@ public class Articulo implements Serializable {
     @Digits(integer = 1, fraction = 0)
     private short compras;
 
-    @Column(name = "UMedida")
+    @Column(name = "Umedida")
     @NotNull
     @Size(max = 20)
     private String unidadmedida;
@@ -164,27 +168,27 @@ public class Articulo implements Serializable {
     @Digits(integer = 2, fraction = 0)
     private short conversionID;
 
-    @Column(name = "Art_VentaSinStock")
+    @Column(name = "Art_Ventasinstock")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short ventasinstock;
 
-    @Column(name = "Art_ControlStock")
+    @Column(name = "Art_Controlstock")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short controlastock;
 
-    @Column(name = "Art_AsientoCostos")
+    @Column(name = "Art_Asientocostos")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short asientocostos;
 
-    @Column(name = "Art_MaskBal")
+    @Column(name = "Art_Maskbal")
     @NotNull
     @Size(max = 5)
     private String mascarabalanza;
 
-    @Column(name = "Art_HabIngreso")
+    @Column(name = "Art_Habingreso")
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short habilitaingreso;
@@ -213,6 +217,10 @@ public class Articulo implements Serializable {
     @NotNull
     @Size(max = 32)
     private String uuid;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo")
+    private List<ProductoArticulo> productoArticulo;
+    
 
     public Articulo() {
         super();

@@ -16,4 +16,8 @@ public interface IReservaService {
 	List<Reserva> findAll();
 	
 	Boolean generarReserva(List<ReservaDTO> reserva);
+	
+	List<Reserva> findByConfirmada(short confirmada);
+	
+	List<Reserva> findConfirmadaXCliente(int cliente, short estado);
 }

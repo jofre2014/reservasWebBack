@@ -30,7 +30,7 @@ public class ReservaArticulo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Digits(integer = 4, fraction = 0)
     @Column(name = "RAr_ID")
@@ -42,11 +42,9 @@ public class ReservaArticulo implements Serializable {
     private short negocioID;
 
     @Column(name = "RAr_Res_ID")
-    @Digits(integer = 4, fraction = 0)
     private int reservaID;
 
     @Column(name = "RAr_Vou_ID")
-    @Digits(integer = 4, fraction = 0)
     private int voucherID;
 
     @NotNull
@@ -66,17 +64,17 @@ public class ReservaArticulo implements Serializable {
 
     @NotNull
     @Digits(integer = 10, fraction = 2)
-    @Column(name = "RAr_PrecioUnitSinComision")
+    @Column(name = "RAr_Preciounitsincomision")
     private double preciounitariosincomision;
 
     @NotNull
     @Digits(integer = 10, fraction = 2)
-    @Column(name = "RAr_PrecioUnitario")
+    @Column(name = "RAr_Preciounitario")
     private double preciounitario;
 
     @NotNull
     @Digits(integer = 10, fraction = 2)
-    @Column(name = "RAr_PrecioCompra")
+    @Column(name = "RAr_Preciocompra")
     private double preciocompra;
 
     @NotNull

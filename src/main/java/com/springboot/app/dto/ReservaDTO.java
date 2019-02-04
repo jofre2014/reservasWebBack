@@ -18,6 +18,7 @@ public class ReservaDTO {
 	public String FechaServicio;
 	public int cliente;
 	public String nombreFantasia;
+	public int confirmada;
 	
 	public int getId() {
 		return id;
@@ -103,6 +104,13 @@ public class ReservaDTO {
 	public void setNombreFantasia(String nombreFantasia) {
 		this.nombreFantasia = nombreFantasia;
 	}
+	public int getConfirmada() {
+		return confirmada;
+	}
+	public void setConfirmada(int confirmada) {
+		this.confirmada = confirmada;
+	}
+	
 	
 	
 }
