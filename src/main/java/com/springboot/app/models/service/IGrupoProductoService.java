@@ -14,4 +14,6 @@ import java.util.List;
  */
 public interface IGrupoProductoService {
       List<GrupoProducto> findAll(); 
+      
+      GrupoProducto findGrupoXProducto(int prodID);
 }

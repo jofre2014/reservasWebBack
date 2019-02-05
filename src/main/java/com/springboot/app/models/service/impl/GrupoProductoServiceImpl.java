@@ -29,4 +29,10 @@ public class GrupoProductoServiceImpl implements IGrupoProductoService {
         return iGrupoProductoDao.findAll();
     }
 
+	@Override
+	public GrupoProducto findGrupoXProducto(int prodID) {
+		// TODO Auto-generated method stub
+		return iGrupoProductoDao.findByProductoID(prodID);
+	}
+
 }

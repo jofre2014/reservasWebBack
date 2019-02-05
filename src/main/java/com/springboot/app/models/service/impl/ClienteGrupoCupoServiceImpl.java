@@ -65,7 +65,7 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
    		Integer cantDias = obtenerCantidadDias(fecha_actual, fecha_reserva);
    		
    		List<CuposDisponibleDTO> cupDisponibles = gruposInternet.stream().
-   				map(e -> new CuposDisponibleDTO(e.getNombre(),iClienteGrupoCupoDao.recuperaCupos(codigo, (long) e.getGrupoID(), cantDias)))
+   				map(e -> new CuposDisponibleDTO(e.getNombre(),iClienteGrupoCupoDao.recuperaCupos(codigo, (long) e.getGrupoID(), cantDias), e.getGrupoID()))
    				.collect(Collectors.toList());
    		
    		return cupDisponibles;

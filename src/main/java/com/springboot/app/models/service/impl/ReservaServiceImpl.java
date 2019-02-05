@@ -156,7 +156,7 @@ public class ReservaServiceImpl implements IReservaService {
  
 	
 
-		return null;
+		return true;
 	}
 
 	private Object registrarReservaArticulo(VoucherProducto a) {

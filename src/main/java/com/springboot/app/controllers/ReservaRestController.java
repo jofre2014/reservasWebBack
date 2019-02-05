@@ -34,6 +34,7 @@ public class ReservaRestController {
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	@PostMapping("/reservas")
 	public Boolean generarReserva(@RequestBody List<ReservaDTO> reserva) {
+		System.out.println("en el restController");
 		return iReservaService.generarReserva(reserva);		
 	}
 	

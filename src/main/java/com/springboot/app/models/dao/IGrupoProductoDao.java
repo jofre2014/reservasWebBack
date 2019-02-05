@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface IGrupoProductoDao  extends JpaRepository<GrupoProducto, Integer>{
     
+	GrupoProducto findByProductoID(int prodId);
 	
 	
 }

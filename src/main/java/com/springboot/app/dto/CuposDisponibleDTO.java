@@ -3,13 +3,17 @@ package com.springboot.app.dto;
 public class CuposDisponibleDTO {
 	
 	private String nombreServicio;
-	private Integer cantidadCupo;
+	private int cantidadCupo;
+	private int grupo;
 	
-	public CuposDisponibleDTO(String nombreServicio, Integer cantidadCupo) {
+	public CuposDisponibleDTO(String nombreServicio, int cantidadCupo, int grupo) {
 		this.nombreServicio = nombreServicio;
 		this.cantidadCupo = cantidadCupo;
+		this.grupo = grupo;
 		
 	}
+
+
 
 	public String getNombreServicio() {
 		return nombreServicio;
@@ -19,12 +23,20 @@ public class CuposDisponibleDTO {
 		this.nombreServicio = nombreServicio;
 	}
 
-	public Integer getCantidadCupo() {
+	public int getCantidadCupo() {
 		return cantidadCupo;
 	}
 
-	public void setCantidadCupo(Integer cantidadCupo) {
+	public void setCantidadCupo(int cantidadCupo) {
 		this.cantidadCupo = cantidadCupo;
+	}
+
+	public int getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(int grupo) {
+		this.grupo = grupo;
 	}
 	
 	
