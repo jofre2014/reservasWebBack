@@ -14,6 +14,7 @@ public class ReservaDTO {
 	public String telefono;
 	public Boolean whatapp;
 	public Producto producto;
+	public int grupo;
 	public String accion;
 	public String FechaServicio;
 	public int cliente;
@@ -109,6 +110,12 @@ public class ReservaDTO {
 	}
 	public void setConfirmada(int confirmada) {
 		this.confirmada = confirmada;
+	}
+	public int getGrupo() {
+		return grupo;
+	}
+	public void setGrupo(int grupo) {
+		this.grupo = grupo;
 	}
 	
 	
