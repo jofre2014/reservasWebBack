@@ -40,7 +40,7 @@ public class ReservaRestController {
 	
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	@GetMapping("/reservas/confirmadas/{cliente}/{estado}")
-	public List<Reserva> listarReservasConfirmadas(@PathVariable int cliente, @PathVariable short estado){
+	public List<Reserva> listarReservasEstadoConfir(@PathVariable int cliente, @PathVariable short estado){
 		return iReservaService.findConfirmadaXCliente(cliente, estado);
 	}
 	
