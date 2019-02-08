@@ -3,6 +3,8 @@ package com.springboot.app.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,9 +41,9 @@ public class ReservaRestController {
 	}
 	
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-	@GetMapping("/reservas/confirmadas/{cliente}/{estado}")
-	public List<Reserva> listarReservasEstadoConfir(@PathVariable int cliente, @PathVariable short estado){
-		return iReservaService.findConfirmadaXCliente(cliente, estado);
+	@GetMapping("/reservas/confirmadas/{cliente}/{estado}/{page}")
+	public Page<Reserva> listarReservasEstadoConfir(@PathVariable int cliente, @PathVariable short estado, @PathVariable Integer page){
+		return iReservaService.findConfirmadaXCliente(cliente, estado, PageRequest.of(page, 5));
 	}
 	
 	

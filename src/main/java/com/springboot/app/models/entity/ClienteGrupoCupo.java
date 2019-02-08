@@ -33,7 +33,7 @@ public class ClienteGrupoCupo implements Serializable {
     @NotNull
     private short cantidad;
     
-    @Column(name = "clienteproductocupo_id")
+    @Column(name = "clientegrupocupo_id")
     @NotNull
     private Long clientegrupocupo_id;
 

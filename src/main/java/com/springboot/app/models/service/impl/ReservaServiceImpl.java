@@ -17,6 +17,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -372,8 +374,8 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	@Override
-	public List<Reserva> findConfirmadaXCliente(int cliente, short estado) {
-		return iReservaDao.findConfirmadaXCliente(cliente, estado);
+	public Page<Reserva> findConfirmadaXCliente(int cliente, short estado, Pageable pageable) {
+		return iReservaDao.findConfirmadaXCliente(cliente, estado, pageable);
 	}
 
 }

@@ -2,6 +2,9 @@ package com.springboot.app.models.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.springboot.app.dto.ReservaDTO;
 import com.springboot.app.models.entity.Reserva;
 
@@ -19,5 +22,5 @@ public interface IReservaService {
 	
 	List<Reserva> findByConfirmada(short confirmada);
 	
-	List<Reserva> findConfirmadaXCliente(int cliente, short estado);
+	Page<Reserva> findConfirmadaXCliente(int cliente, short estado, Pageable pageable);
 }
