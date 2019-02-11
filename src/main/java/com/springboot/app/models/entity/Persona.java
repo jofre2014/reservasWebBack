@@ -7,6 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.pl.NIP;
+import org.springframework.lang.NonNull;
 
 @Entity
 @Table( name = "PersonasP"   )
@@ -17,7 +22,10 @@ public class Persona implements Serializable {
 	@Id()
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
+	@NonNull
 	private String nombre;
+	@NotBlank
+	@Size(max=5 )
 	private String apellido;
 	
 	public Persona() {

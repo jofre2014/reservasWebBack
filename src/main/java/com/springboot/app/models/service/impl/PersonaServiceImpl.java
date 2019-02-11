@@ -23,4 +23,9 @@ public class PersonaServiceImpl implements IPersonaService {
 		return iPersonaDao.findAll();
 	}
 
+	@Override
+	public Persona savePersona(Persona persona) {
+		return persona;
+	}
+
 }

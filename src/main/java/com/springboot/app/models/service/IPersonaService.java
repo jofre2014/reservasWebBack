@@ -7,5 +7,5 @@ import com.springboot.app.models.entity.Persona;
 public interface IPersonaService {
 	
 	List<Persona> findAll();
-
+	Persona savePersona( Persona persona );
 }
