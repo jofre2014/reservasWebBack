@@ -3,8 +3,7 @@ package com.springboot.app.models.service.impl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -13,20 +12,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.app.components.IAuthenticationFacade;
 import com.springboot.app.dto.ReservaDTO;
-import com.springboot.app.dto.VoucherProductoDTO;
+
 import com.springboot.app.models.dao.IArticuloDao;
 import com.springboot.app.models.dao.IGrupoCupoDao;
 import com.springboot.app.models.dao.IProductoArticuloDao;
@@ -377,5 +377,19 @@ public class ReservaServiceImpl implements IReservaService {
 	public Page<Reserva> findConfirmadaXCliente(int cliente, short estado, Pageable pageable) {
 		return iReservaDao.findConfirmadaXCliente(cliente, estado, pageable);
 	}
+
+
+	@Override
+	public Reserva findById(int id) {
+		return iReservaDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Reserva save(Reserva reserva) {		
+		return iReservaDao.save(reserva);
+	}
+
+
 
 }
