@@ -28,5 +28,11 @@ public class GrupoServiceImpl implements IGrupoService{
     public List<Grupo> findAll() {
       return  iGrupoDao.findAll();
     }
+
+	@Override
+	public List<Grupo> findByGrupoIDIn(List<Integer> grupoId) {
+		// TODO Auto-generated method stub
+		return iGrupoDao.findByGrupoIDIn(grupoId);
+	}
     
 }

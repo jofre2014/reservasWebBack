@@ -21,4 +21,9 @@ public interface IGrupoDao extends JpaRepository<Grupo, Integer>{
 	@Query(value="SELECT * FROM grupo WHERE venta_internet = 1", nativeQuery=true)
 	List<Grupo> recuperaGruposInternet();
     
+	List<Grupo> findByGrupoIDIn(List<Integer> grupoId);
+	
+	List<Grupo> findAllByGrupoID(List<Integer> grupoId);
+	
+
 }

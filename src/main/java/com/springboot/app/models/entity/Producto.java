@@ -7,15 +7,20 @@ package com.springboot.app.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -56,6 +61,12 @@ public class Producto  implements Serializable {
     @NotNull
     @Digits(integer = 1, fraction = 0)
     private short traslado;
+    
+    @NotNull
+    @Digits(integer = 1, fraction = 0)
+    @Column(name = "punto_encuentro")
+    private short puntoencuentro;  
+    
 
     @Column(name = "venta_mostrador")
     @NotNull
@@ -81,6 +92,9 @@ public class Producto  implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<ProductoArticulo> productoArticulo;
+    
+    @OneToMany(  fetch = FetchType.LAZY, mappedBy = "productoID", cascade = CascadeType.ALL, orphanRemoval = true )
+    private Set<GrupoProducto> grupoproductos = new HashSet<>();
 
     public Producto() {
         super();
@@ -165,8 +179,18 @@ public class Producto  implements Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+    
+    
 
-    @Override
+    public short getPuntoencuentro() {
+		return puntoencuentro;
+	}
+
+	public void setPuntoencuentro(short puntoencuentro) {
+		this.puntoencuentro = puntoencuentro;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + Objects.hashCode(this.productoID);

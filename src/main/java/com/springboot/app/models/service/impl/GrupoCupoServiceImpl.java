@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springboot.app.excepciones.ResourceNotFoundException;
 import com.springboot.app.models.dao.IGrupoCupoDao;
 import com.springboot.app.models.entity.GrupoCupo;
 import com.springboot.app.models.service.IGrupoCupoService;
@@ -27,10 +28,15 @@ public class GrupoCupoServiceImpl implements IGrupoCupoService {
 		System.out.println("FechaServicio: " + fechaServicio);
 		cupos.forEach((k,v) -> {
 			
-			GrupoCupo grupoCupo = iGrupoCupoDao.findXFechaYGrupo(k.shortValue(), fechaServicio);
-			System.out.println("GerupoCupo encontrado: " + grupoCupo);
-			grupoCupo.setCantidad((short) (grupoCupo.getCantidad() - v));
-			iGrupoCupoDao.save(grupoCupo);
+				GrupoCupo grupoCupo = iGrupoCupoDao.findXFechaYGrupo(k.shortValue(), fechaServicio);
+				if(grupoCupo == null) {
+					throw new ResourceNotFoundException((long) 0,"No se encontraron cupos");
+				}
+				System.out.println("GerupoCupo encontrado: " + grupoCupo);
+				grupoCupo.setCantidad((short) (grupoCupo.getCantidad() - v));
+				iGrupoCupoDao.save(grupoCupo);
+			
+			
 			
 		});
 		

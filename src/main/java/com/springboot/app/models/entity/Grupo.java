@@ -7,12 +7,23 @@ package com.springboot.app.models.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -56,8 +67,26 @@ public class Grupo implements Serializable {
     @Column(name = "uuid")
     @Size(max = 32)
     private String uuid;
+    
+//    @OneToMany(  fetch = FetchType.LAZY, mappedBy = "grupoID", cascade = CascadeType.ALL, orphanRemoval = true )
+//    private Set<GrupoProducto> grupoproductos = new HashSet<>();
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="grupoproducto", 
+    		joinColumns = @JoinColumn(name = "GrP_Gru_ID"),
+    		inverseJoinColumns = @JoinColumn(name = "GrP_Prd_ID"))
+	private List<Producto> productos = new ArrayList<>();
+    
 
-    public Grupo() {
+    public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
+	}
+
+	public Grupo() {
         super();
     }
 
@@ -108,8 +137,19 @@ public class Grupo implements Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+    
+    
+    
+//
+//    public Set<GrupoProducto> getGrupoproductos() {
+//		return grupoproductos;
+//	}
+//
+//	public void setGrupoproductos(Set<GrupoProducto> grupoproductos) {
+//		this.grupoproductos = grupoproductos;
+//	}
 
-    @Override
+	@Override
     public int hashCode() {
         int hash = 3;
         hash = 31 * hash + this.grupoID;

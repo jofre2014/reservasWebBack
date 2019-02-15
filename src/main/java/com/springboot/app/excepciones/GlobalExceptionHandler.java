@@ -207,13 +207,13 @@ public class GlobalExceptionHandler {
         
 		private static String getUserName() {
 	
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (auth != null) {
-	
-				if (((User) auth.getPrincipal()) != null) {
-					return ((User) auth.getPrincipal()).getUsername();
-				}
-			}
+//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//			if (auth != null) {
+//	
+//				if (((User) auth.getPrincipal()) != null) {
+//					return ((User) auth.getPrincipal()).getUsername();
+//				}
+//			}
 			return "Desconocido";
 		}
         

@@ -14,4 +14,6 @@ import java.util.List;
  */
 public interface IGrupoService {
      List<Grupo> findAll(); 
+     
+     List<Grupo> findByGrupoIDIn(List<Integer> grupoId);
 }

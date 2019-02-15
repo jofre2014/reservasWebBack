@@ -7,12 +7,18 @@ package com.springboot.app.models.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -45,6 +51,7 @@ public class GrupoProducto implements Serializable {
     @Digits(integer = 2, fraction = 0)
     private int productoID;
 
+
     @NotNull
     @Column(name = "GrP_Coeficiente")
     @Digits(integer = 6, fraction = 2)
@@ -61,18 +68,30 @@ public class GrupoProducto implements Serializable {
     @Column(name = "uuid")
     @Size(max = 32)
     private String uuid;
+    
+//    @ManyToOne   
+//    @JoinColumn(
+//            name = "GrP_Prd_ID",
+//            referencedColumnName = "Prd_ID" )    
+//    private Producto productoID;
+//       
+   
+//    @ManyToOne
+//    @JoinColumn( name = "GrP_Gru_ID",
+//		referencedColumnName = "Gru_ID" )
+//    private Grupo grupoID;  
 
     public GrupoProducto() {
         super();
     }
 
-    public int getGrupoproductoID() {
-        return grupoproductoID;
-    }
-
-    public void setGrupoproductoID(int grupoproductoID) {
-        this.grupoproductoID = grupoproductoID;
-    }
+//    public int getGrupoproductoID() {
+//        return grupoproductoID;
+//    }
+//
+//    public void setGrupoproductoID(int grupoproductoID) {
+//        this.grupoproductoID = grupoproductoID;
+//    }
 
     public int getGrupoID() {
         return grupoID;
@@ -126,8 +145,8 @@ public class GrupoProducto implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 79 * hash + this.grupoproductoID;
-        hash = 79 * hash + this.grupoID;
-        hash = 79 * hash + this.productoID;
+//        hash = 79 * hash + this.grupoID;
+//        hash = 79 * hash + this.productoID;
         hash = 79 * hash + Float.floatToIntBits(this.coeficiente);
         hash = 79 * hash + Objects.hashCode(this.created);
         hash = 79 * hash + Objects.hashCode(this.updated);
@@ -150,12 +169,12 @@ public class GrupoProducto implements Serializable {
         if (this.grupoproductoID != other.grupoproductoID) {
             return false;
         }
-        if (this.grupoID != other.grupoID) {
-            return false;
-        }
-        if (this.productoID != other.productoID) {
-            return false;
-        }
+//        if (this.grupoID != other.grupoID) {
+//            return false;
+//        }
+//        if (this.productoID != other.productoID) {
+//            return false;
+//        }
         if (Float.floatToIntBits(this.coeficiente) != Float.floatToIntBits(other.coeficiente)) {
             return false;
         }
@@ -171,9 +190,9 @@ public class GrupoProducto implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "GrupoProducto{" + "grupoproductoID=" + grupoproductoID + ", grupoID=" + grupoID + ", productoID=" + productoID + ", coeficiente=" + coeficiente + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "GrupoProducto{" + "grupoproductoID=" + grupoproductoID + ", grupoID=" + grupoID + ", productoID=" + productoID + ", coeficiente=" + coeficiente + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + '}';
+//    }
 
 }
