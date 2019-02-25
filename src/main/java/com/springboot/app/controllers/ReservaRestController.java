@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.app.dto.ReservaDTO;
+import com.springboot.app.dto.ReservaPaxsDTO;
 import com.springboot.app.models.entity.Reserva;
 import com.springboot.app.models.service.IReservaService;
 
@@ -79,7 +80,7 @@ public class ReservaRestController {
 		updateReserva.setPendiente((short) 0);
 		updateReserva.setUpdated(new Date());
 			
-		Reserva reservaActualizaa = iReservaService.save(updateReserva);
+		Reserva reservaActualizada = iReservaService.save(updateReserva);
 
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al confirmar reserva en la base de datos");
@@ -91,6 +92,18 @@ public class ReservaRestController {
 		response.put("reserva", updateReserva);
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+	@GetMapping("/reservas/reservaPaxs/{idReserva}")
+	public ResponseEntity<?>  getReservaPaxs(@PathVariable int idReserva) {
+		Map<String, Object> response = new HashMap<>();
+	
+		ReservaPaxsDTO  reservaPaxs = iReservaService.getReservaPaxs(idReserva);
+		response.put("reservaPaxs", reservaPaxs);
+		response.put("Mensaje", "getReservaPaxs");
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 }

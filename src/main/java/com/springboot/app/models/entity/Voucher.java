@@ -13,9 +13,11 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -38,7 +40,8 @@ public class Voucher implements Serializable {
     @NotNull
     private int voucherID;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voucher")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="voucher_id")
     private List<VoucherPax> voucherpax;
 
     @Column(name = "Vou_Fechareserva")
@@ -457,167 +460,217 @@ public class Voucher implements Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+    
+    
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + this.voucherID;
-        hash = 59 * hash + Objects.hashCode(this.fechatoma);
-        hash = 59 * hash + Objects.hashCode(this.fechaservicio);
-        hash = 59 * hash + Objects.hashCode(this.fechavencimiento);
-        hash = 59 * hash + Objects.hashCode(this.horavencimiento);
-        hash = 59 * hash + Objects.hashCode(this.nombrepax);
-        hash = 59 * hash + this.cantidadpaxs;
-        hash = 59 * hash + Objects.hashCode(this.subeen);
-        hash = 59 * hash + Objects.hashCode(this.productos);
-        hash = 59 * hash + this.tienevoucher;
-        hash = 59 * hash + this.clienteID;
-        hash = 59 * hash + Objects.hashCode(this.observaciones);
-        hash = 59 * hash + this.confirmado;
-        hash = 59 * hash + this.pagacacheuta;
-        hash = 59 * hash + this.hotelID;
-        hash = 59 * hash + Objects.hashCode(this.contacto);
-        hash = 59 * hash + this.paxsreales;
-        hash = 59 * hash + this.proveedorID;
-        hash = 59 * hash + Objects.hashCode(this.planilla);
-        hash = 59 * hash + this.reservaID;
-        hash = 59 * hash + Objects.hashCode(this.numerovoucher);
-        hash = 59 * hash + Objects.hashCode(this.usuario);
-        hash = 59 * hash + Objects.hashCode(this.conffecharecepcion);
-        hash = 59 * hash + Objects.hashCode(this.conffechaemision);
-        hash = 59 * hash + Objects.hashCode(this.confnumero);
-        hash = 59 * hash + this.confcantidadpaxs;
-        hash = 59 * hash + Objects.hashCode(this.confnombre);
-        hash = 59 * hash + this.confcontraslado;
-        hash = 59 * hash + this.confpaxsnoshow;
-        hash = 59 * hash + this.reservaorigenID;
-        hash = 59 * hash + this.fechaabierta;
-        hash = 59 * hash + Objects.hashCode(this.created);
-        hash = 59 * hash + Objects.hashCode(this.updated);
-        hash = 59 * hash + Objects.hashCode(this.uuid);
-        return hash;
-    }
+    public List<VoucherPax> getVoucherpax() {
+		return voucherpax;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Voucher other = (Voucher) obj;
-        if (this.voucherID != other.voucherID) {
-            return false;
-        }
-        if (this.cantidadpaxs != other.cantidadpaxs) {
-            return false;
-        }
-        if (this.tienevoucher != other.tienevoucher) {
-            return false;
-        }
-        if (this.clienteID != other.clienteID) {
-            return false;
-        }
-        if (this.confirmado != other.confirmado) {
-            return false;
-        }
-        if (this.pagacacheuta != other.pagacacheuta) {
-            return false;
-        }
-        if (this.hotelID != other.hotelID) {
-            return false;
-        }
-        if (this.paxsreales != other.paxsreales) {
-            return false;
-        }
-        if (this.proveedorID != other.proveedorID) {
-            return false;
-        }
-        if (this.reservaID != other.reservaID) {
-            return false;
-        }
-        if (this.numerovoucher != other.numerovoucher) {
-            return false;
-        }
-        if (this.confcantidadpaxs != other.confcantidadpaxs) {
-            return false;
-        }
-        if (this.confcontraslado != other.confcontraslado) {
-            return false;
-        }
-        if (this.confpaxsnoshow != other.confpaxsnoshow) {
-            return false;
-        }
-        if (this.reservaorigenID != other.reservaorigenID) {
-            return false;
-        }
-        if (this.fechaabierta != other.fechaabierta) {
-            return false;
-        }
-        if (!Objects.equals(this.nombrepax, other.nombrepax)) {
-            return false;
-        }
-        if (!Objects.equals(this.subeen, other.subeen)) {
-            return false;
-        }
-        if (!Objects.equals(this.productos, other.productos)) {
-            return false;
-        }
-        if (!Objects.equals(this.observaciones, other.observaciones)) {
-            return false;
-        }
-        if (!Objects.equals(this.contacto, other.contacto)) {
-            return false;
-        }
-        if (!Objects.equals(this.planilla, other.planilla)) {
-            return false;
-        }
-        if (!Objects.equals(this.usuario, other.usuario)) {
-            return false;
-        }
-        if (!Objects.equals(this.confnumero, other.confnumero)) {
-            return false;
-        }
-        if (!Objects.equals(this.confnombre, other.confnombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.uuid, other.uuid)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechatoma, other.fechatoma)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechaservicio, other.fechaservicio)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechavencimiento, other.fechavencimiento)) {
-            return false;
-        }
-        if (!Objects.equals(this.horavencimiento, other.horavencimiento)) {
-            return false;
-        }
-        if (!Objects.equals(this.conffecharecepcion, other.conffecharecepcion)) {
-            return false;
-        }
-        if (!Objects.equals(this.conffechaemision, other.conffechaemision)) {
-            return false;
-        }
-        if (!Objects.equals(this.created, other.created)) {
-            return false;
-        }
-        if (!Objects.equals(this.updated, other.updated)) {
-            return false;
-        }
-        return true;
-    }
+	public void setVoucherpax(List<VoucherPax> voucherpax) {
+		this.voucherpax = voucherpax;
+	}
 
-    @Override
-    public String toString() {
-        return "Voucher{" + "voucherID=" + voucherID + ", fechatoma=" + fechatoma + ", fechaservicio=" + fechaservicio + ", fechavencimiento=" + fechavencimiento + ", horavencimiento=" + horavencimiento + ", nombrepax=" + nombrepax + ", cantidadpaxs=" + cantidadpaxs + ", subeen=" + subeen + ", productos=" + productos + ", tienevoucher=" + tienevoucher + ", clienteID=" + clienteID + ", observaciones=" + observaciones + ", confirmado=" + confirmado + ", pagacacheuta=" + pagacacheuta + ", hotelID=" + hotelID + ", contacto=" + contacto + ", paxsreales=" + paxsreales + ", proveedorID=" + proveedorID + ", planilla=" + planilla + ", reservaID=" + reservaID + ", numerovoucher=" + numerovoucher + ", usuario=" + usuario + ", conffecharecepcion=" + conffecharecepcion + ", conffechaemision=" + conffechaemision + ", confnumero=" + confnumero + ", confcantidadpaxs=" + confcantidadpaxs + ", confnombre=" + confnombre + ", confcontraslado=" + confcontraslado + ", confpaxsnoshow=" + confpaxsnoshow + ", reservaorigenID=" + reservaorigenID + ", fechaabierta=" + fechaabierta + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + '}';
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cantidadpaxs;
+		result = prime * result + clienteID;
+		result = prime * result + confcantidadpaxs;
+		result = prime * result + confcontraslado;
+		result = prime * result + ((conffechaemision == null) ? 0 : conffechaemision.hashCode());
+		result = prime * result + ((conffecharecepcion == null) ? 0 : conffecharecepcion.hashCode());
+		result = prime * result + confirmado;
+		result = prime * result + ((confnombre == null) ? 0 : confnombre.hashCode());
+		result = prime * result + ((confnumero == null) ? 0 : confnumero.hashCode());
+		result = prime * result + confpaxsnoshow;
+		result = prime * result + ((contacto == null) ? 0 : contacto.hashCode());
+		result = prime * result + ((created == null) ? 0 : created.hashCode());
+		result = prime * result + fechaabierta;
+		result = prime * result + ((fechaservicio == null) ? 0 : fechaservicio.hashCode());
+		result = prime * result + ((fechatoma == null) ? 0 : fechatoma.hashCode());
+		result = prime * result + ((fechavencimiento == null) ? 0 : fechavencimiento.hashCode());
+		result = prime * result + ((horavencimiento == null) ? 0 : horavencimiento.hashCode());
+		result = prime * result + hotelID;
+		result = prime * result + ((nombrepax == null) ? 0 : nombrepax.hashCode());
+		result = prime * result + ((numerovoucher == null) ? 0 : numerovoucher.hashCode());
+		result = prime * result + ((observaciones == null) ? 0 : observaciones.hashCode());
+		result = prime * result + pagacacheuta;
+		result = prime * result + paxsreales;
+		result = prime * result + ((planilla == null) ? 0 : planilla.hashCode());
+		result = prime * result + ((productos == null) ? 0 : productos.hashCode());
+		result = prime * result + proveedorID;
+		result = prime * result + reservaID;
+		result = prime * result + reservaorigenID;
+		result = prime * result + ((subeen == null) ? 0 : subeen.hashCode());
+		result = prime * result + tienevoucher;
+		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		result = prime * result + voucherID;
+		result = prime * result + ((voucherpax == null) ? 0 : voucherpax.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Voucher other = (Voucher) obj;
+		if (cantidadpaxs != other.cantidadpaxs)
+			return false;
+		if (clienteID != other.clienteID)
+			return false;
+		if (confcantidadpaxs != other.confcantidadpaxs)
+			return false;
+		if (confcontraslado != other.confcontraslado)
+			return false;
+		if (conffechaemision == null) {
+			if (other.conffechaemision != null)
+				return false;
+		} else if (!conffechaemision.equals(other.conffechaemision))
+			return false;
+		if (conffecharecepcion == null) {
+			if (other.conffecharecepcion != null)
+				return false;
+		} else if (!conffecharecepcion.equals(other.conffecharecepcion))
+			return false;
+		if (confirmado != other.confirmado)
+			return false;
+		if (confnombre == null) {
+			if (other.confnombre != null)
+				return false;
+		} else if (!confnombre.equals(other.confnombre))
+			return false;
+		if (confnumero == null) {
+			if (other.confnumero != null)
+				return false;
+		} else if (!confnumero.equals(other.confnumero))
+			return false;
+		if (confpaxsnoshow != other.confpaxsnoshow)
+			return false;
+		if (contacto == null) {
+			if (other.contacto != null)
+				return false;
+		} else if (!contacto.equals(other.contacto))
+			return false;
+		if (created == null) {
+			if (other.created != null)
+				return false;
+		} else if (!created.equals(other.created))
+			return false;
+		if (fechaabierta != other.fechaabierta)
+			return false;
+		if (fechaservicio == null) {
+			if (other.fechaservicio != null)
+				return false;
+		} else if (!fechaservicio.equals(other.fechaservicio))
+			return false;
+		if (fechatoma == null) {
+			if (other.fechatoma != null)
+				return false;
+		} else if (!fechatoma.equals(other.fechatoma))
+			return false;
+		if (fechavencimiento == null) {
+			if (other.fechavencimiento != null)
+				return false;
+		} else if (!fechavencimiento.equals(other.fechavencimiento))
+			return false;
+		if (horavencimiento == null) {
+			if (other.horavencimiento != null)
+				return false;
+		} else if (!horavencimiento.equals(other.horavencimiento))
+			return false;
+		if (hotelID != other.hotelID)
+			return false;
+		if (nombrepax == null) {
+			if (other.nombrepax != null)
+				return false;
+		} else if (!nombrepax.equals(other.nombrepax))
+			return false;
+		if (numerovoucher == null) {
+			if (other.numerovoucher != null)
+				return false;
+		} else if (!numerovoucher.equals(other.numerovoucher))
+			return false;
+		if (observaciones == null) {
+			if (other.observaciones != null)
+				return false;
+		} else if (!observaciones.equals(other.observaciones))
+			return false;
+		if (pagacacheuta != other.pagacacheuta)
+			return false;
+		if (paxsreales != other.paxsreales)
+			return false;
+		if (planilla == null) {
+			if (other.planilla != null)
+				return false;
+		} else if (!planilla.equals(other.planilla))
+			return false;
+		if (productos == null) {
+			if (other.productos != null)
+				return false;
+		} else if (!productos.equals(other.productos))
+			return false;
+		if (proveedorID != other.proveedorID)
+			return false;
+		if (reservaID != other.reservaID)
+			return false;
+		if (reservaorigenID != other.reservaorigenID)
+			return false;
+		if (subeen == null) {
+			if (other.subeen != null)
+				return false;
+		} else if (!subeen.equals(other.subeen))
+			return false;
+		if (tienevoucher != other.tienevoucher)
+			return false;
+		if (updated == null) {
+			if (other.updated != null)
+				return false;
+		} else if (!updated.equals(other.updated))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		if (voucherID != other.voucherID)
+			return false;
+		if (voucherpax == null) {
+			if (other.voucherpax != null)
+				return false;
+		} else if (!voucherpax.equals(other.voucherpax))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Voucher [voucherID=" + voucherID + ", voucherpax=" + voucherpax + ", fechatoma=" + fechatoma
+				+ ", fechaservicio=" + fechaservicio + ", fechavencimiento=" + fechavencimiento + ", horavencimiento="
+				+ horavencimiento + ", nombrepax=" + nombrepax + ", cantidadpaxs=" + cantidadpaxs + ", subeen=" + subeen
+				+ ", productos=" + productos + ", tienevoucher=" + tienevoucher + ", clienteID=" + clienteID
+				+ ", observaciones=" + observaciones + ", confirmado=" + confirmado + ", pagacacheuta=" + pagacacheuta
+				+ ", hotelID=" + hotelID + ", contacto=" + contacto + ", paxsreales=" + paxsreales + ", proveedorID="
+				+ proveedorID + ", planilla=" + planilla + ", reservaID=" + reservaID + ", numerovoucher="
+				+ numerovoucher + ", usuario=" + usuario + ", conffecharecepcion=" + conffecharecepcion
+				+ ", conffechaemision=" + conffechaemision + ", confnumero=" + confnumero + ", confcantidadpaxs="
+				+ confcantidadpaxs + ", confnombre=" + confnombre + ", confcontraslado=" + confcontraslado
+				+ ", confpaxsnoshow=" + confpaxsnoshow + ", reservaorigenID=" + reservaorigenID + ", fechaabierta="
+				+ fechaabierta + ", created=" + created + ", updated=" + updated + ", uuid=" + uuid + "]";
+	}
+
+	
 
 }

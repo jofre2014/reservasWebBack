@@ -39,9 +39,12 @@ public class VoucherPax implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int voucherpaxID;
 	
-	@ManyToOne
-    @JoinColumn(name = "voucher_id", nullable = false, updatable = false)
-    private Voucher voucher;
+//	@ManyToOne
+//    @JoinColumn(name = "voucher_id", nullable = false, updatable = false)
+//    private Voucher voucher;
+	@NotNull
+	@Column(name="voucher_id")
+	private Integer voucherID;
 	
 	@ManyToOne
 	@JoinColumn(name = "producto_id", nullable = false, updatable = false)
@@ -198,13 +201,13 @@ public class VoucherPax implements Serializable {
 		this.voucherpaxID = voucherpaxID;
 	}
 
-	public Voucher getVoucher() {
-		return voucher;
-	}
-
-	public void setVoucher(Voucher voucher) {
-		this.voucher = voucher;
-	}
+//	public Voucher getVoucher() {
+//		return voucher;
+//	}
+//
+//	public void setVoucher(Voucher voucher) {
+//		this.voucher = voucher;
+//	}
 
 	public Producto getProducto() {
 		return producto;
@@ -220,6 +223,16 @@ public class VoucherPax implements Serializable {
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
+	}
+	
+	
+
+	public Integer getVoucherID() {
+		return voucherID;
+	}
+
+	public void setVoucherID(Integer voucherID) {
+		this.voucherID = voucherID;
 	}
 
 	@Override

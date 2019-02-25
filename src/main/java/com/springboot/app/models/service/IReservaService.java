@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.springboot.app.dto.ReservaDTO;
+import com.springboot.app.dto.ReservaPaxsDTO;
 import com.springboot.app.models.entity.Reserva;
 
 
@@ -28,5 +29,6 @@ public interface IReservaService {
 	
 	Page<Reserva> findConfirmadaXCliente(int cliente, short estado, Pageable pageable);
 	
+	ReservaPaxsDTO getReservaPaxs(int idReserva);
 	
 }

@@ -6,6 +6,9 @@
 package com.springboot.app.models.dao;
 
 import com.springboot.app.models.entity.VoucherProducto;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -13,5 +16,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Romina
  */
 public interface IVoucherProductoDao extends JpaRepository<VoucherProducto, Integer>{
-    
+
+	public List<VoucherProducto> deleteByVoucherID(int vocuherID);
 }

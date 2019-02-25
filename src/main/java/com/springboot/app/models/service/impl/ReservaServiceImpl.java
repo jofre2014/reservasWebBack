@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,12 +20,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.app.components.IAuthenticationFacade;
 import com.springboot.app.dto.ReservaDTO;
-
+import com.springboot.app.dto.ReservaPaxsDTO;
+import com.springboot.app.excepciones.ResourceNotFoundException;
 import com.springboot.app.models.dao.IArticuloDao;
 import com.springboot.app.models.dao.IGrupoCupoDao;
 import com.springboot.app.models.dao.IProductoArticuloDao;
@@ -93,11 +92,13 @@ public class ReservaServiceImpl implements IReservaService {
 
 	@Autowired
 	IReservaArticuloDao iReservaArticuloDao;
-		
-	@Autowired IGrupoCupoDao iGrupoCupoDao;
-	
-	@Autowired IGrupoCupoService iGrupoCupoService;
-	
+
+	@Autowired
+	IGrupoCupoDao iGrupoCupoDao;
+
+	@Autowired
+	IGrupoCupoService iGrupoCupoService;
+
 	@Override
 	public List<Reserva> findAll() {
 		return iReservaDao.findAll();
@@ -106,6 +107,7 @@ public class ReservaServiceImpl implements IReservaService {
 	@Override
 	@Transactional(readOnly = false)
 	public Boolean generarReserva(List<ReservaDTO> datosReserva) {
+
 		this.cadenaResumenProd = new StringBuilder();
 		this.voucher = new Voucher();
 		newReserva = new Reserva();
@@ -116,10 +118,20 @@ public class ReservaServiceImpl implements IReservaService {
 		voucherProd = new ArrayList<VoucherProducto>();
 		reservaArticulo = new ArrayList<ReservaArticulo>();
 
+		if (datosReserva.get(0).getVoucherID() > 0) {
+
+			List<VoucherPax> voucherPaxsAEliminar = iVoucherPaxDao.findByVoucherID(datosReserva.get(0).getVoucherID());
+
+			iVoucherPaxDao.deleteInBatch(voucherPaxsAEliminar);
+			iVoucherProductoDao.deleteByVoucherID(datosReserva.get(0).getVoucherID());
+			iReservaArticuloDao.deleteByVoucherID(datosReserva.get(0).getVoucherID());
+		}
+
 		cantidadPaxs = datosReserva.size();
 
 		// Registrar Voucher(Solo necesito el primer objeto de la lista)
 		registrarVoucher(datosReserva.get(0));
+		
 		iVoucherDao.save(this.voucher);
 
 		// Registrar Reserva
@@ -157,10 +169,9 @@ public class ReservaServiceImpl implements IReservaService {
 		reduceVoucherProd.forEach(a -> registrarReservaArticulo(a));
 
 		iReservaArticuloDao.saveAll(reservaArticulo);
-		
+
 		// Actualiza Cupos
 		iGrupoCupoService.updateCupos(datosReserva.get(0).FechaServicio, this.actualizaCupo);
-		
 
 		return true;
 	}
@@ -192,9 +203,6 @@ public class ReservaServiceImpl implements IReservaService {
 						+ this.voucher.getFechaservicio();
 		newReservaArticulo.setObservaciones(obs);
 
-		System.out.println("Verificacion datos objeto newREservaArticulo");
-		printObjToJSON(newReservaArticulo);
-
 		reservaArticulo.add(newReservaArticulo);
 
 		this.first = false;
@@ -202,7 +210,7 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	private void registrarVoucherPax(ReservaDTO reserva) {
-
+		
 		// Cargo datos para VoucherProducto
 		newVoucherProd = new VoucherProducto();
 
@@ -217,7 +225,6 @@ public class ReservaServiceImpl implements IReservaService {
 
 		voucherPax = new VoucherPax();
 
-		System.out.println("registrarVoucherPax");
 		Producto prod = new Producto();
 		prod = reserva.producto;
 
@@ -248,20 +255,19 @@ public class ReservaServiceImpl implements IReservaService {
 		voucherPax.setWhatsapp((short) (reserva.whatapp == true ? 1 : 0));
 		voucherPax.setProducto(prod);
 		voucherPax.setHotel(hotel);
-		voucherPax.setVoucher(voucher);
+
+		voucherPax.setVoucherID(voucher.getVoucherID());
 		voucherPax.setUpdated(new Date());
 		iVoucherPaxDao.save(voucherPax);
-
-		printObjToJSON(voucherPax);
 
 		// Guardo los productos sin repetirse
 		if (!this.listProd.containsKey(reserva.producto.getProductoID()))
 			this.listProd.put(reserva.producto.getProductoID(), reserva.producto.getNombre());
-		
+
 		// Guardo Cupos a Descontar
 		this.actualizaCupo.put(reserva.getGrupo(), this.actualizaCupo.get((Integer) reserva.getGrupo()) == null ? 1
 				: (this.actualizaCupo.get((Integer) reserva.getGrupo()) + 1));
-		
+
 	}
 
 	private void obtenerCadenaResumen(Map<Integer, String> listProd) {
@@ -292,19 +298,19 @@ public class ReservaServiceImpl implements IReservaService {
 		}
 
 		DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-		System.out.println("Hora: " + hourFormat.format(new Date()));
 
 		final java.util.Calendar fecha = GregorianCalendar.getInstance();
 		fecha.setTime(new Date());
 
-		// Voucher voucher = new Voucher();
+		if (reserva.getVoucherID() > 0)
+			this.voucher.setVoucherID(reserva.getVoucherID());
+
 		this.voucher.setFechatoma(fechaActual);
 		this.voucher.setFechaservicio(fechaServicio);
 		fecha.add(GregorianCalendar.DATE, 2);
 		this.voucher.setFechavencimiento(new Date(fecha.getTime().getTime()));
 		this.voucher.setHoravencimiento(null);
 		this.voucher.setNombrepax(reserva.getApellido() + " " + reserva.getNombre());
-		// this.voucher.setCantidadpaxs(cantidadpaxs);
 //		this.voucher.setSubeen(reserva.hotel.getNombre());
 		this.voucher.setSubeen("");
 		this.voucher.setHotelID(reserva.hotel.getHotelID());
@@ -315,7 +321,6 @@ public class ReservaServiceImpl implements IReservaService {
 		this.voucher.setHotelID(reserva.hotel.getHotelID());
 		this.voucher.setContacto(reserva.getNombreFantasia());
 		this.voucher.setProveedorID(45); // id del proveedor. Por ahora VITAR
-		// this.voucher.setReservaID(reservaID);
 		this.voucher.setUsuario(reserva.getNombreFantasia());
 		this.voucher.setReservaorigenID(10); // internet. Por ahora Hardcode
 		this.voucher.setUpdated(new Date());
@@ -327,6 +332,9 @@ public class ReservaServiceImpl implements IReservaService {
 
 	private void registrarReserva(ReservaDTO reservaDTO) {
 		// TODO Auto-generated method stub
+
+		if (reservaDTO.getReservaID() > 0)
+			this.newReserva.setReservaID(reservaDTO.getReservaID());
 
 		this.newReserva.setNegocioID((short) 4); // por el momento va hardCode
 		this.newReserva.setClienteID(reservaDTO.getCliente());
@@ -378,7 +386,6 @@ public class ReservaServiceImpl implements IReservaService {
 		return iReservaDao.findConfirmadaXCliente(cliente, estado, pageable);
 	}
 
-
 	@Override
 	public Reserva findById(int id) {
 		return iReservaDao.findById(id).orElse(null);
@@ -386,10 +393,30 @@ public class ReservaServiceImpl implements IReservaService {
 
 	@Override
 	@Transactional
-	public Reserva save(Reserva reserva) {		
+	public Reserva save(Reserva reserva) {
 		return iReservaDao.save(reserva);
 	}
 
+	@Override
+	public ReservaPaxsDTO getReservaPaxs(int idReserva) {
 
+		ReservaPaxsDTO reservaPaxs = new ReservaPaxsDTO();
+
+		Reserva reserva = iReservaDao.findById(idReserva)
+				.orElseThrow(() -> new ResourceNotFoundException((long) idReserva, "Reserva no encontrada"));
+
+		reservaPaxs.setReservaId(idReserva);
+		reservaPaxs.setFechaServicio(reserva.getFechainservicio().toString());
+
+		Voucher voucher = iVoucherDao.findById(reserva.getVoucherID()).orElseThrow(
+				() -> new ResourceNotFoundException((long) reserva.getVoucherID(), "Voucher no encontrado"));
+
+		List<VoucherPax> vpax = new ArrayList<>();
+		vpax = voucher.getVoucherpax().stream().collect(Collectors.toList());
+
+		reservaPaxs.setPaxs(voucher.getVoucherpax());
+
+		return reservaPaxs;
+	}
 
 }

@@ -20,6 +20,9 @@ public class ReservaDTO {
 	public int cliente;
 	public String nombreFantasia;
 	public int confirmada;
+	public int voucherID;
+	public int reservaID;
+	public String fechaServicioOld;
 	
 	public int getId() {
 		return id;
@@ -116,6 +119,24 @@ public class ReservaDTO {
 	}
 	public void setGrupo(int grupo) {
 		this.grupo = grupo;
+	}
+	public int getVoucherID() {
+		return voucherID;
+	}
+	public void setVoucherID(int voucherID) {
+		this.voucherID = voucherID;
+	}
+	public String getFechaServicioOld() {
+		return fechaServicioOld;
+	}
+	public void setFechaServicioOld(String fechaServicioOld) {
+		this.fechaServicioOld = fechaServicioOld;
+	}
+	public int getReservaID() {
+		return reservaID;
+	}
+	public void setReservaID(int reservaID) {
+		this.reservaID = reservaID;
 	}
 	
 	
