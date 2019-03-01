@@ -28,6 +28,7 @@ import com.springboot.app.dto.ReservaPaxsDTO;
 import com.springboot.app.excepciones.ResourceNotFoundException;
 import com.springboot.app.models.dao.IArticuloDao;
 import com.springboot.app.models.dao.IGrupoCupoDao;
+import com.springboot.app.models.dao.IGrupoProductoDao;
 import com.springboot.app.models.dao.IProductoArticuloDao;
 import com.springboot.app.models.dao.IReservaArticuloDao;
 import com.springboot.app.models.dao.IReservaDao;
@@ -35,6 +36,7 @@ import com.springboot.app.models.dao.IVoucherDao;
 import com.springboot.app.models.dao.IVoucherPaxDao;
 import com.springboot.app.models.dao.IVoucherProductoDao;
 import com.springboot.app.models.entity.Articulo;
+import com.springboot.app.models.entity.GrupoProducto;
 import com.springboot.app.models.entity.Hotel;
 import com.springboot.app.models.entity.Producto;
 import com.springboot.app.models.entity.Reserva;
@@ -68,6 +70,7 @@ public class ReservaServiceImpl implements IReservaService {
 	private StringBuilder cadenaResumenProd;
 	private Map<Integer, String> listProd;
 	private Map<Integer, Integer> actualizaCupo;
+	private Map<Integer, Integer> recuperaCupos;
 
 	@Autowired
 	IReservaDao iReservaDao;
@@ -94,6 +97,9 @@ public class ReservaServiceImpl implements IReservaService {
 	IReservaArticuloDao iReservaArticuloDao;
 
 	@Autowired
+	IGrupoProductoDao iGrupoProductoDao;
+
+	@Autowired
 	IGrupoCupoDao iGrupoCupoDao;
 
 	@Autowired
@@ -114,11 +120,19 @@ public class ReservaServiceImpl implements IReservaService {
 		this.listProd = new HashMap<Integer, String>();
 
 		this.actualizaCupo = new HashMap<Integer, Integer>();
+		this.recuperaCupos = new HashMap<Integer, Integer>();
 
 		voucherProd = new ArrayList<VoucherProducto>();
 		reservaArticulo = new ArrayList<ReservaArticulo>();
 
 		if (datosReserva.get(0).getVoucherID() > 0) {
+
+			// Recupera cupos para actualizar
+			List<VoucherProducto> vp = iVoucherProductoDao.findByVoucherID(datosReserva.get(0).getVoucherID());
+			this.recuperaCupos = vp.stream().collect(Collectors.toMap(x -> {
+				GrupoProducto gp = iGrupoProductoDao.findByProductoID(x.getProductoID());
+				return gp.getGrupoID();
+			}, x -> Integer.valueOf(x.getCantidadpaxs())));
 
 			List<VoucherPax> voucherPaxsAEliminar = iVoucherPaxDao.findByVoucherID(datosReserva.get(0).getVoucherID());
 
@@ -131,7 +145,7 @@ public class ReservaServiceImpl implements IReservaService {
 
 		// Registrar Voucher(Solo necesito el primer objeto de la lista)
 		registrarVoucher(datosReserva.get(0));
-		
+
 		iVoucherDao.save(this.voucher);
 
 		// Registrar Reserva
@@ -171,7 +185,11 @@ public class ReservaServiceImpl implements IReservaService {
 		iReservaArticuloDao.saveAll(reservaArticulo);
 
 		// Actualiza Cupos
-		iGrupoCupoService.updateCupos(datosReserva.get(0).FechaServicio, this.actualizaCupo);
+		iGrupoCupoService.updateCupos(datosReserva.get(0).FechaServicio, this.actualizaCupo, true);
+
+		if (!datosReserva.get(0).FechaServicio.equals(datosReserva.get(0).fechaServicioOld)) {
+			iGrupoCupoService.updateCupos(datosReserva.get(0).getFechaServicioOld(), this.recuperaCupos, false);
+		}
 
 		return true;
 	}
@@ -210,7 +228,7 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	private void registrarVoucherPax(ReservaDTO reserva) {
-		
+
 		// Cargo datos para VoucherProducto
 		newVoucherProd = new VoucherProducto();
 

@@ -17,5 +17,7 @@ public interface IGrupoCupoService {
 	List<GrupoCupo> findAll();
 	
 	// Actualizar Cupo por Fecha y Grupo
-	void updateCupos(String fechaReserva, Map<Integer, Integer> cupos);
+	void updateCupos(String fechaReserva, Map<Integer, Integer> cupos, Boolean resta);
+	
+	
 }

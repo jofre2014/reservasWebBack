@@ -18,4 +18,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface IVoucherProductoDao extends JpaRepository<VoucherProducto, Integer>{
 
 	public List<VoucherProducto> deleteByVoucherID(int vocuherID);
+	
+	public List<VoucherProducto> findByVoucherID(int vocuherID);
 }
