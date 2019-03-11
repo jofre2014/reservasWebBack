@@ -31,4 +31,8 @@ public interface IReservaService {
 	
 	ReservaPaxsDTO getReservaPaxs(int idReserva);
 	
+	Page<Reserva> findReservaByNombrePax(String nombrePax, Pageable pageable);
+
+	List<Reserva> getAllReservasSinConfirmar(int cliente, short estado);
+	
 }

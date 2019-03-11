@@ -437,4 +437,15 @@ public class ReservaServiceImpl implements IReservaService {
 		return reservaPaxs;
 	}
 
+	@Override
+	public Page<Reserva> findReservaByNombrePax(String nombrepax, Pageable pageable) {
+		return iReservaDao.findReservaByNombrepaxStartingWith(nombrepax, pageable);
+	}
+
+	@Override
+	public List<Reserva> getAllReservasSinConfirmar(int cliente, short estado) {
+		// TODO Auto-generated method stub
+		return iReservaDao.findByConfirmadaAndClienteID(estado, cliente);
+	}
+
 }

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.app.dto.ReservaDTO;
 import com.springboot.app.dto.ReservaPaxsDTO;
+import com.springboot.app.excepciones.ResourceNotFoundException;
 import com.springboot.app.models.entity.Reserva;
 import com.springboot.app.models.service.IReservaService;
 
@@ -57,8 +58,43 @@ public class ReservaRestController {
 	@GetMapping("/reservas/confirmadas/{cliente}/{estado}/{page}")
 	public Page<Reserva> listarReservasEstadoConfir(@PathVariable int cliente, @PathVariable short estado,
 			@PathVariable Integer page) {
-		return iReservaService.findConfirmadaXCliente(cliente, estado, PageRequest.of(page, 2));
+		return iReservaService.findConfirmadaXCliente(cliente, estado, PageRequest.of(page, 10));
 	}
+	
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+	@GetMapping("/reservas/{cliente}/{estado}")
+	public List<Reserva> getAllReservasSinConfirmar(@PathVariable int cliente, @PathVariable short estado) {
+		return iReservaService.getAllReservasSinConfirmar(cliente, estado);
+	}
+	
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+	@GetMapping("/reservas/buscar/id/{id}")
+	public ResponseEntity<?> findReservaById(@PathVariable int id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+		Reserva reserva = iReservaService.findById(id);
+		response.put("reserva", reserva );
+		response.put("mensaje", "Reserva Encontrada");
+		}catch(ResourceNotFoundException e) {
+			response.put("mensaje", new ResourceNotFoundException((long) id, "Reserva no encontrada"));		
+			
+		}
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		
+	}
+	
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+	@GetMapping("/reservas/buscar/nombrepax/{nombrepax}/{page}")
+	public ResponseEntity<?> findReservaByNombrePax(@PathVariable String nombrepax, @PathVariable int page){
+		Map<String, Object> response = new HashMap<>();
+		Page<Reserva> reserva = iReservaService.findReservaByNombrePax(nombrepax, PageRequest.of(page, 10));
+		response.put("mensaje", "Reserva Encontrada");
+		response.put("Reserva", reserva);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+		
+	}
+	
+	
 
 	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	@PutMapping("/reservas/confirmarReserva/{reservaID}")
@@ -105,5 +141,7 @@ public class ReservaRestController {
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
+	
+	
 
 }

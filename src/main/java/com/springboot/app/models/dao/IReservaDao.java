@@ -21,5 +21,8 @@ public interface IReservaDao extends JpaRepository<Reserva, Integer> {
 	
 	@Query(value = "SELECT * FROM reserva WHERE Res_Cli_ID = :cliente AND Res_Confirmada = :estado",nativeQuery = true)
 	Page<Reserva> findConfirmadaXCliente(@Param("cliente") int cliente, @Param("estado") short estado, Pageable pageale);
+	
+	Page<Reserva> findReservaByNombrepaxStartingWith(String nombrepax, Pageable pageable);
 
+	List<Reserva> findByConfirmadaAndClienteID(short confirmada, int cliente);
 }

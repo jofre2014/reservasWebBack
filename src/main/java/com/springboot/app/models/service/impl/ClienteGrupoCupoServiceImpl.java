@@ -12,6 +12,7 @@ import com.springboot.app.models.dao.IGrupoDao;
 import com.springboot.app.models.entity.ClienteGrupoCupo;
 import com.springboot.app.models.entity.Grupo;
 import com.springboot.app.models.service.IClienteGrupoCupoService;
+import com.springboot.app.models.service.JpaUserDetailsService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +24,8 @@ import java.util.List;
 
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
    
+	private Logger logger = LoggerFactory.getLogger(ClienteGrupoCupoServiceImpl.class);
+	
     @Autowired
 	IClienteGrupoCupoDao iClienteGrupoCupoDao;
     
@@ -55,6 +60,8 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
    	@Override
    	public List<CuposDisponibleDTO> findCupos(String fecha_reserva) {
    		
+   		logger.info("Fecha de reserva/servicio" + fecha_reserva);
+   		
    		Long codigo = Long.valueOf(iAuthenticationFacade.getAuthentication().getPrincipal().toString());
    		
    		List<Grupo> gruposInternet = new ArrayList<Grupo>();  		
@@ -64,8 +71,12 @@ public class ClienteGrupoCupoServiceImpl implements IClienteGrupoCupoService{
    		LocalDate fecha_actual = LocalDate.now();
    		Integer cantDias = obtenerCantidadDias(fecha_actual, fecha_reserva);
    		
+   	
+   		
+   		logger.info("Cantidad de dias" + cantDias);
+   		
    		List<CuposDisponibleDTO> cupDisponibles = gruposInternet.stream().
-   				map(e -> new CuposDisponibleDTO(e.getNombre(),iClienteGrupoCupoDao.recuperaCupos(codigo, (long) e.getGrupoID(), cantDias), e.getGrupoID()))
+   				map(e -> new CuposDisponibleDTO(e.getNombre(),iClienteGrupoCupoDao.recuperaCupos(codigo, (long) e.getGrupoID(), (cantDias < 0 ? 0 : cantDias)), e.getGrupoID()))
    				.collect(Collectors.toList());
    		
    		return cupDisponibles;
