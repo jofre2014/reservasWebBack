@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,6 +49,8 @@ import com.springboot.app.models.entity.VoucherProducto;
 import com.springboot.app.models.service.IGrupoCupoService;
 import com.springboot.app.models.service.IReservaService;
 
+
+
 /**
  *
  * @author Jose
@@ -54,7 +58,9 @@ import com.springboot.app.models.service.IReservaService;
 @Service
 @Transactional(readOnly = true)
 public class ReservaServiceImpl implements IReservaService {
-
+	
+	private Logger logger = LoggerFactory.getLogger(ReservaServiceImpl.class);
+	
 	private Voucher voucher;
 	private Reserva newReserva;
 
@@ -113,7 +119,12 @@ public class ReservaServiceImpl implements IReservaService {
 	@Override
 	@Transactional(readOnly = false)
 	public Boolean generarReserva(List<ReservaDTO> datosReserva) {
-
+		
+		logger.info("Generando Reserva");
+		logger.info("Verificando Fecha Servicio y Fecha Servicio Old");
+		logger.info("fechaServicio: "+ datosReserva.get(0).FechaServicio );
+		logger.info("fechaServicioOLD: " + datosReserva.get(0).fechaServicioOld );
+		
 		this.cadenaResumenProd = new StringBuilder();
 		this.voucher = new Voucher();
 		newReserva = new Reserva();
@@ -185,6 +196,7 @@ public class ReservaServiceImpl implements IReservaService {
 		iReservaArticuloDao.saveAll(reservaArticulo);
 
 		// Actualiza Cupos
+		
 		iGrupoCupoService.updateCupos(datosReserva.get(0).FechaServicio, this.actualizaCupo, true);
 
 		if (!datosReserva.get(0).FechaServicio.equals(datosReserva.get(0).fechaServicioOld)) {
